@@ -8,6 +8,8 @@
   "private": false,
   "devDependencies": {
     "@types/pg": "^7.4.14",
+    "apollo-server": "^2.6.7",
+    "apollo-server-lambda": "^2.6.7",
     "pg": "^7.11.0"
   }
 }

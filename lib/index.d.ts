@@ -1,4 +1,5 @@
 import { Pool } from 'pg'
+import { DataType } from './dataType'
 
 export declare class Pgraphql {
   constructor(
@@ -7,7 +8,8 @@ export declare class Pgraphql {
     database: string,
     host: string,
     port?: number,
-    connectionMax?: number
+    connectionMax?: number,
+    isLambda?: boolean
   )
-  private _inst: Pool
+  private static dataType: DataType
 }
