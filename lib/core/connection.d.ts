@@ -1,5 +1,8 @@
 import { Pool } from 'pg'
 
+/**
+ * To connect the postgresql
+ */
 export declare const Connection: (
   username: string,
   password: string,

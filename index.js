@@ -2,7 +2,7 @@
 
 const { Pgraphql } = require('./lib')
 
-// new Pgraphql()
+const a = new Pgraphql('ss', '1122', 'dd', '12')
 
 module.exports = { Pgraphql }
 module.exports.Pgraphql = Pgraphql

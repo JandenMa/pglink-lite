@@ -1,5 +1,6 @@
 import { Pool } from 'pg'
-import { DataType } from './dataType'
+import { DataType } from './dataType/dataType'
+import { DataAccess } from './core/dataAccess'
 
 export declare class Pgraphql {
   constructor(
@@ -12,4 +13,5 @@ export declare class Pgraphql {
     isLambda?: boolean
   )
   private static dataType: DataType
+  public dataAccess: DataAccess
 }
