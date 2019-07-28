@@ -203,11 +203,17 @@ export declare class DataAccess {
    * @param {string} tableName the name of table
    * @param {string} whereClause e.g. "employeeId" = '123'
    * @param {string} selectFields the fields what you want to select, default *
+   * @param {string} sortBy the field name for sorting, e.g.: 'id DESC'
+   * @param {number} limit to limit the count of rows you want to query
+   * @param {number} offset how many rows you want to skip
    * @returns {object} the response from postgres
    */
   public SingleQueryExecutor(
     tableName: string,
     whereClause: string,
-    selectFields?: string
+    selectFields?: string,
+    sortBy?: string,
+    limit?: number,
+    offset?: number
   ): object
 }
