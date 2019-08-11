@@ -1,14 +1,83 @@
-// import { Connection } from './connection'
+type DataAccessConstructorType = {
+  /**
+   * @description Postgresql host, default localhost
+   * @type {string}
+   */
+  host?: string
+  /**
+   * @description Postgresql port, default 5432
+   * @type {number}
+   */
+  port?: number
+  /**
+   * @description Postgresql user name, default postgres
+   * @type {string}
+   */
+  useName?: string
+  /**
+   * @description Postgresql password, default empty
+   * @type {string}
+   */
+  password?: string
+  /**
+   * @description Postgresql database, default postgres
+   * @type {string}
+   */
+  database?: string
+  /**
+   * @description Postgresql max connection, default 10
+   * @type {number}
+   */
+  connectionMax?: number
+}
+
+type TransactionParamsType = {
+  sql: string
+  replacements?: Array<any>
+  tableName?: string
+}
+
+type TransactionArgsType = {
+  params: Array<TransactionParamsType>
+  returnTableName?: boolean
+}
+
+type GererateSQLReturnType = {
+  sql: string
+  replacement: Array<any>
+  tableName: string
+}
+
+type GenerateUpdateSQLArgsType = {
+  /** an object includes the fields and values you want to update, must includes primary key and its value */
+  params: object
+  /** the name of table */
+  tableName: string
+  /** e.g. "employeeId" = '123' */
+  whereClause?: string
+  /** the name of primary key, default 'id' */
+  pkName?: string
+  /** those fields need to set time automatically */
+  autoSetTimeFields?: Array<string>
+}
+
+type SingleQueryExecutorArgsType = {
+  /** the name of table */
+  tableName: string
+  /** e.g. "employeeId" = '123' */
+  whereClause: string
+  /** the fields what you want to select, default * */
+  selectFields?: string
+  /** the field name for sorting, e.g.: 'id DESC' */
+  sortBy?: string
+  /** to limit the count of rows you want to query */
+  limit?: number
+  /** how many rows you want to skip */
+  offset?: number
+}
 
 export declare class DataAccess {
-  constructor(
-    username: string,
-    password: string,
-    database: string,
-    host: string,
-    port: number,
-    connectionMax: number
-  )
+  constructor(args: DataAccessConstructorType)
 
   /**
    * @description check whether where clause includes illegal operator, e.g. ===
@@ -25,18 +94,11 @@ export declare class DataAccess {
   /**
    * Transaction
    * @description Commit many sqls in one transaction, and will rollback all if exist one sql execute failed.
-   * @param {Array<String>} sqls Any sql you want to commit. Add them in an array.
-   * @param {Array<Array>} params If you use placeholder (such as $1,$2), you should pass this props to set values.And the length of this array should be eauql to the sqls array. So you push an empty array into it though you don't use placeholder.
-   * @param {Array<String>} tableNames for responses
+   * @param {TransactionArgsType} args includes sqls, their params and table name.
    * @param {Function} transaction you can use nested transaction here, you will receive the response from outer transaction, and if inner transaction rollback, others would be rollback
    * @author Janden Ma
    */
-  public Transaction(
-    sqls: Array<string>,
-    params: Array<Array<object>>,
-    tableNames: Array<string>,
-    transaction: Function
-  ): any
+  public Transaction(args: TransactionArgsType, transaction: Function): any
 
   /**
    * @description generate insert sql
@@ -47,7 +109,7 @@ export declare class DataAccess {
   public GenerateInsertSQL(
     params: object,
     tableName: string
-  ): { sql: string; paramArray: Array<any> }
+  ): GererateSQLReturnType
 
   /**
    * @description generate multiple insert sql
@@ -60,37 +122,31 @@ export declare class DataAccess {
     insertFields: Array<string>,
     params: Array<object>,
     tableName: string
-  ): { sql: string; paramArray: Array<any> }
+  ): GererateSQLReturnType
 
   /**
    * @description generate update sql
-   * @param {object} params an object includes the fields and values you want to update, must includes primary key and its value
-   * @param {string} tableName the name of table
-   * @param {string} whereClause e.g. "employeeId" = '123'
-   * @param {string} pkName the name of primary key, default 'id'
+   * @param {GenerateUpdateSQLArgsType} args
    * @returns {object} an object includes sql and params
    */
   public GenerateUpdateSQL(
-    params: object,
-    tableName: string,
-    whereClause: string,
-    pkName?: string
-  ): { sql: string; paramArray: Array<any> }
+    args: GenerateUpdateSQLArgsType
+  ): GererateSQLReturnType
 
-  /**
-   * @description generate multiple update sql (DONT USE IT UNLESS ALL FIELDS ARE STRING)
-   * @param {Array<string>} updateFields the fields which you want to update
-   * @param {Array<object>} params an array includes the fields and values you want to update
-   * @param {string} tableName the name of table
-   * @param {string} pkName the name of primary key, default 'id'
-   * @returns {object} an object includes sql and params
-   */
-  public GenerateMultiUpdateSQL(
-    updateFields: Array<string>,
-    params: Array<object>,
-    tableName: string,
-    pkName?: string
-  ): { sql: string; paramArray: Array<any> }
+  // /**
+  //  * @description generate multiple update sql (DONT USE IT UNLESS ALL FIELDS ARE STRING)
+  //  * @param {Array<string>} updateFields the fields which you want to update
+  //  * @param {Array<object>} params an array includes the fields and values you want to update
+  //  * @param {string} tableName the name of table
+  //  * @param {string} pkName the name of primary key, default 'id'
+  //  * @returns {object} an object includes sql and params
+  //  */
+  // public GenerateMultiUpdateSQL(
+  //   updateFields: Array<string>,
+  //   params: Array<object>,
+  //   tableName: string,
+  //   pkName?: string
+  // ): GererateSQLReturnType
 
   /**
    * @description An execute inserting helper function
@@ -200,20 +256,8 @@ export declare class DataAccess {
 
   /**
    * @description An execute querying helper function for one table
-   * @param {string} tableName the name of table
-   * @param {string} whereClause e.g. "employeeId" = '123'
-   * @param {string} selectFields the fields what you want to select, default *
-   * @param {string} sortBy the field name for sorting, e.g.: 'id DESC'
-   * @param {number} limit to limit the count of rows you want to query
-   * @param {number} offset how many rows you want to skip
+   * @param {SingleQueryExecutorArgsType} args
    * @returns {object} the response from postgres
    */
-  public SingleQueryExecutor(
-    tableName: string,
-    whereClause: string,
-    selectFields?: string,
-    sortBy?: string,
-    limit?: number,
-    offset?: number
-  ): object
+  public SingleQueryExecutor(args: SingleQueryExecutorArgsType): object
 }
