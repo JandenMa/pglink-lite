@@ -1,46 +1,4 @@
-type DataAccessConstructorType = {
-  /**
-   * @description Postgresql host, default localhost
-   * @type {string}
-   */
-  host?: string
-  /**
-   * @description Postgresql port, default 5432
-   * @type {number}
-   */
-  port?: number
-  /**
-   * @description Postgresql user name, default postgres
-   * @type {string}
-   */
-  useName?: string
-  /**
-   * @description Postgresql password, default empty
-   * @type {string}
-   */
-  password?: string
-  /**
-   * @description Postgresql database, default postgres
-   * @type {string}
-   */
-  database?: string
-  /**
-   * @description Postgresql max connection, default 10
-   * @type {number}
-   */
-  connectionMax?: number
-}
-
-type TransactionParamsType = {
-  sql: string
-  replacements?: Array<any>
-  tableName?: string
-}
-
-type TransactionArgsType = {
-  params: Array<TransactionParamsType>
-  returnTableName?: boolean
-}
+import { Pool } from 'pg'
 
 type GererateSQLReturnType = {
   sql: string
@@ -48,36 +6,8 @@ type GererateSQLReturnType = {
   tableName: string
 }
 
-type GenerateUpdateSQLArgsType = {
-  /** an object includes the fields and values you want to update, must includes primary key and its value */
-  params: object
-  /** the name of table */
-  tableName: string
-  /** e.g. "employeeId" = '123' */
-  whereClause?: string
-  /** the name of primary key, default 'id' */
-  pkName?: string
-  /** those fields need to set time automatically */
-  autoSetTimeFields?: Array<string>
-}
-
-type SingleQueryExecutorArgsType = {
-  /** the name of table */
-  tableName: string
-  /** e.g. "employeeId" = '123' */
-  whereClause: string
-  /** the fields what you want to select, default * */
-  selectFields?: string
-  /** the field name for sorting, e.g.: 'id DESC' */
-  sortBy?: string
-  /** to limit the count of rows you want to query */
-  limit?: number
-  /** how many rows you want to skip */
-  offset?: number
-}
-
-export declare class DataAccess {
-  constructor(args: DataAccessConstructorType)
+export class DataAccess {
+  constructor(connection: Pool)
 
   /**
    * @description check whether where clause includes illegal operator, e.g. ===
@@ -94,11 +24,21 @@ export declare class DataAccess {
   /**
    * Transaction
    * @description Commit many sqls in one transaction, and will rollback all if exist one sql execute failed.
-   * @param {TransactionArgsType} args includes sqls, their params and table name.
+   * @param {{params: Array<{sql: string,replacements?: Array<any>,tableName?: string}>,returnTableName?: boolean}} args includes sqls, their params and table name.
    * @param {Function} transaction you can use nested transaction here, you will receive the response from outer transaction, and if inner transaction rollback, others would be rollback
    * @author Janden Ma
    */
-  public Transaction(args: TransactionArgsType, transaction: Function): any
+  public Transaction(
+    args: {
+      params: Array<{
+        sql: string
+        replacements?: Array<any>
+        tableName?: string
+      }>
+      returnTableName?: boolean
+    },
+    transaction: Function
+  ): any
 
   /**
    * @description generate insert sql
@@ -129,9 +69,18 @@ export declare class DataAccess {
    * @param {GenerateUpdateSQLArgsType} args
    * @returns {object} an object includes sql and params
    */
-  public GenerateUpdateSQL(
-    args: GenerateUpdateSQLArgsType
-  ): GererateSQLReturnType
+  public GenerateUpdateSQL(args: {
+    /** an object includes the fields and values you want to update, must includes primary key and its value */
+    params: object
+    /** the name of table */
+    tableName: string
+    /** e.g. "employeeId" = '123' */
+    whereClause?: string
+    /** the name of primary key, default 'id' */
+    pkName?: string
+    /** those fields need to set time automatically */
+    autoSetTimeFields?: Array<string>
+  }): GererateSQLReturnType
 
   // /**
   //  * @description generate multiple update sql (DONT USE IT UNLESS ALL FIELDS ARE STRING)
@@ -234,19 +183,6 @@ export declare class DataAccess {
   ): object
 
   /**
-   * @description An execute deleting helper function by primary key
-   * @param {string} tableName the name of table
-   * @param {number|string} pkValue primary key value
-   * @param {string} pkName primary key name, default 'id'
-   * @returns {object} the response from postgres
-   */
-  public DeleteByPkExecutor(
-    tableName: string,
-    pkValue: number | string,
-    pkName?: string
-  ): object
-
-  /**
    * @description An execute deleting helper function
    * @param {string} tableName the name of table
    * @param {string} whereClause e.g. "employeeId" = '123'
@@ -259,5 +195,18 @@ export declare class DataAccess {
    * @param {SingleQueryExecutorArgsType} args
    * @returns {object} the response from postgres
    */
-  public SingleQueryExecutor(args: SingleQueryExecutorArgsType): object
+  public SingleQueryExecutor(args: {
+    /** the name of table */
+    tableName: string
+    /** e.g. "employeeId" = '123' */
+    whereClause: string
+    /** the fields what you want to select, default * */
+    selectFields?: string
+    /** the field name for sorting, e.g.: 'id DESC' */
+    sortBy?: string
+    /** to limit the count of rows you want to query */
+    limit?: number
+    /** how many rows you want to skip */
+    offset?: number
+  }): object
 }

@@ -36,4 +36,4 @@ type ConnectionArgsType = {
 /**
  * To connect the postgresql
  */
-export declare const Connection: (args: ConnectionArgsType) => Pool
+export const Connection: (args: ConnectionArgsType) => Pool
