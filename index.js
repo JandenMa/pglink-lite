@@ -1,9 +1,15 @@
 'use strict'
 
-const { Pgraphql } = require('./lib')
+const { Pgsqlize } = require('./lib')
 
-const a = new Pgraphql('ss', '1122', 'dd', '12')
+// test
+const a = new Pgsqlize()
+class b extends a.Model {
+  constructor() {
+    super({})
+  }
+}
 
-module.exports = { Pgraphql }
-module.exports.Pgraphql = Pgraphql
-module.exports.default = Pgraphql
+module.exports = { Pgsqlize }
+module.exports.Pgsqlize = Pgsqlize
+module.exports.default = Pgsqlize
