@@ -10,9 +10,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
 
 
-### Version
+### Version Change Logs
 
-- __(Build20190812) : 1.0.0__  - First version
+- __Build20190812 :__  Prepared version
 
 ---
 
