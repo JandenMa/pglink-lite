@@ -29,6 +29,7 @@ export interface ModelBase {
    * @description query without conditions for one table
    */
   findAll(): object
+
   /**
    * @method
    * @description query by primary key for one table
@@ -36,23 +37,27 @@ export interface ModelBase {
    * @param selectFields default "*"
    */
   findByPK(pk: string | number, selectFields?: string): object
-  /**\
+
+  /**
    * @method
    * @description query with conditions for one table
    * @param whereClause e.g. "employeeId" = '123'
    * @param selectFields default "*"
    */
   findByConditions(whereClause: string, selectFields?: string): Array<any>
+
   /**
    * @method
    * @description insert one row
    */
   insertOne(): object
+
   /**
    * @method
    * @description update by primary key, but the primary key should be included in the params
    */
   updateByPk(): object
+
   /**
    * @method
    * @description update by where conditions
@@ -66,6 +71,20 @@ export interface ModelBase {
    * @param {string} whereClause e.g. "employeeId" = '123'
    */
   deleteByConditions(whereClause: string): object
+
+  /**
+   * @method
+   * @description to encode value from enum to integer
+   * @param {Array|Object} args the input request
+   */
+  encodeFromEnum(args: Array<any> | object): Array<any> | object
+
+  /**
+   * @method
+   * @description to decaode value from integer to enum
+   * @param {Array|Object} args the output response
+   */
+  decodeToEnum(args: Array<any> | object): Array<any> | object
 }
 
 /**
