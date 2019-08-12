@@ -1,7 +1,7 @@
 {
-  "name": "@liku/pgsqlize-lite",
+  "name": "pgsqlize-lite",
   "version": "1.0.0",
-  "description": "A library for postgres to use ORM like mongoose on NodeJS with GraphQL",
+  "description": "A lite library for Postgresql to use ORM on NodeJS with GraphQL",
   "main": "index.js",
   "author": {
     "name": "Janden Ma",
@@ -17,5 +17,12 @@
   "devDependencies": {
     "@types/pg": "^7.4.14",
     "pg": "^7.12.1"
-  }
+  },
+  "keywords": [
+    "orm",
+    "nodejs",
+    "postgres",
+    "postgresql",
+    "graphql"
+  ]
 }
