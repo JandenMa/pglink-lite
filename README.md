@@ -98,7 +98,6 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   		insertUser(user: UserInsertInput): User
   		editUser(user: UserEditInput): User
   	}
-  }
   `
   module.exports.default = typeDefs;
   ```
