@@ -1,18 +1,14 @@
-# pgsqlize-lite
+# pglink-lite
 
 > A library for Postgresql to use ORM on NodeJS with GraphQL
 >
 > MIT LICENCE
 
-
-
-_This library is built for who uses GraphQL on NodeJS, you can use model to operate data._ 
-
-
+_This library is built for who uses GraphQL on NodeJS, you can use model to operate data._
 
 ### Version Change Logs
 
-- __Build20190812 :__  Prepared version
+- **Build20190812 :** Prepared version
 
 ---
 
@@ -21,58 +17,58 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - npm
 
   ```bash
-  npm i pgsqlize-lite --save
+  npm i pglink-lite --save
   ```
 
 - yarn
 
   ```bash
-  yarn add pgsqlize-lite --save
+  yarn add pglink-lite --save
   ```
 
 ---
 
 ### Quick Example
 
-- Instance (_core/pgsqlize.js_)
+- Instance (_core/pglink.js_)
 
-  ``` javascript
+  ```javascript
   // core/pgsqlize.js
-  const {Pgsqlize} = require('pgsqlize-lite')
-  
-  const pgsqlize = new Pgsqlize({
+  const { PgLink } = require('pglink-lite')
+
+  const pglink = new PgLink({
     host: 'http://192.168.1.100',
     port: 5432,
     useName: 'root',
     password: '123456',
     database: 'test'
-  });
-  
-  module.exports.default = pgsqlize
+  })
+
+  module.exports.default = pglink
   ```
 
 - Model (_models/users.js_)
 
-  ``` javascript
+  ```javascript
   // models/users.js
-  const pgsqlize = require('../core/pgsqlize')
-  
-  class UserModel extends pgsqlize.model{
-    constructor(params){
-      super({tableName: 'users', params, pkName: 'userId'})
+  const pglink = require('../core/pglink')
+
+  class UserModel extends pglink.model {
+    constructor(params) {
+      super({ tableName: 'users', params, pkName: 'userId' })
     }
   }
-  
+
   module.exports.default = UserModel
   ```
 
-- Schema (_schemas/users.js_) 
+- Schema (_schemas/users.js_)
 
-  ``` javascript
+  ```javascript
   // schemas/users.js
   // you need to install something for gql first, we use apollo-server here
   const { gql } = require('apollo-server')
-  
+
   const typeDefs = gql`
     type User {
       userId: ID!
@@ -99,7 +95,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   		editUser(user: UserEditInput): User
   	}
   `
-  module.exports.default = typeDefs;
+  module.exports.default = typeDefs
   ```
 
 - Resolver (_resolvers/users.js_)
@@ -107,30 +103,30 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   ```javascript
   // resolvers/users.js
   const UserModel = require('../models/users.js')
-  
+
   const getUserById = async (_, args) => {
-    const inst = new UserModel(null);
-    const res = await inst.findByPk(args.userId);
-    return res;
-  };
-  
+    const inst = new UserModel(null)
+    const res = await inst.findByPk(args.userId)
+    return res
+  }
+
   const insertUser = async (_, args) => {
-    const inst = new UserModel({...args.user});
-    const res = await inst.insertOne();
-    return res;
-  };
-  
+    const inst = new UserModel({ ...args.user })
+    const res = await inst.insertOne()
+    return res
+  }
+
   const editUser = async (_, args) => {
-    const inst = new UserModel({...args.user});
-    const res = await inst.updateByPk();
-    return res;
-  };
-  
+    const inst = new UserModel({ ...args.user })
+    const res = await inst.updateByPk()
+    return res
+  }
+
   module.exports = {
     getUserById,
     insertUser,
     editUser
-  };
+  }
   ```
 
 ---

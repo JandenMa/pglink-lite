@@ -1,5 +1,5 @@
 {
-  "name": "pgsqlize-lite",
+  "name": "pglink-lite",
   "version": "1.0.0",
   "description": "A lite library for Postgresql to use ORM on NodeJS with GraphQL",
   "main": "index.js",

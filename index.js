@@ -1,15 +1,21 @@
 'use strict'
 
-const { Pgsqlize } = require('./lib')
+const { PgLink } = require('./lib')
 
 // test
-const a = new Pgsqlize()
-class b extends a.Model {
-  constructor() {
-    super({})
+const inst = new PgLink({
+  host: 'http://192.168.1.100',
+  port: 5432,
+  useName: 'root',
+  password: '123456',
+  database: 'test'
+})
+class b extends inst.Model {
+  constructor(params) {
+    super({ tableName: 'companies', pkName: 'id', params })
   }
 }
 
-module.exports = { Pgsqlize }
-module.exports.Pgsqlize = Pgsqlize
-module.exports.default = Pgsqlize
+module.exports = { PgLink }
+module.exports.PgLink = PgLink
+module.exports.default = PgLink

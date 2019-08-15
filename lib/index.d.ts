@@ -3,7 +3,7 @@ import { DataType } from './dataType/dataType'
 import { DataAccess } from './core/dataAccess'
 import { ModelBase } from './model'
 
-export declare class Pgsqlize {
+export declare class PgLink {
   constructor(args: {
     /**
      * @description Postgresql host, default localhost
