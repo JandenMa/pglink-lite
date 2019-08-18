@@ -1,34 +1,40 @@
 import { Pool } from 'pg'
+import { DataAccess } from '../core/dataAccess'
+import { Interface } from 'readline'
 
 /**
  * @interface
  * @description A base class for other classes to operate CRUD
  * @author Janden Ma
  */
-export interface ModelBase {
+export class ModelBase {
   /**
    * @constructor
    * @description A base class for other classes to operate CRUD
    * @param {Object} params an object includes the fields and values
    * @param {string} tableName the name of table
    * @param {string} [pkName] the name of primary key, default 'id'
+   * @param {Object} [enumMapping] to defined the key and value, key should be included in the fields, e.g. {role: {ADMIN: 0, USER: 1}}
    */
-  new (args: {
+  constructor(props: {
     /** an object includes the fields and values */
     params: object
     /** the name of table */
     tableName: string
     /** the name of primary key, default 'id' */
     pkName?: string
-    /** to defined the enum key and value, key should be included in the fields, e.g. {role: {ADMIN: 0, USER: 1}} */
+    /** to defined the key and value, key should be included in the fields, e.g. {role: {ADMIN: 0, USER: 1}} */
     enumMapping?: object
-  }): ModelBase
+  })
+
+  /** db operator */
+  protected dataAccess: DataAccess
 
   /**
    * @method
    * @description query without conditions for one table
    */
-  findAll(): object
+  protected findAll(): object
 
   /**
    * @method
@@ -36,7 +42,7 @@ export interface ModelBase {
    * @param pk primary key value
    * @param selectFields default "*"
    */
-  findByPK(pk: string | number, selectFields?: string): object
+  private findByPK(pk: string | number, selectFields?: string): object
 
   /**
    * @method
@@ -44,50 +50,53 @@ export interface ModelBase {
    * @param whereClause e.g. "employeeId" = '123'
    * @param selectFields default "*"
    */
-  findByConditions(whereClause: string, selectFields?: string): Array<any>
+  protected findByConditions(
+    whereClause: string,
+    selectFields?: string
+  ): Array<any>
 
   /**
    * @method
    * @description insert one row
    */
-  insertOne(): object
+  protected insertOne(): object
 
   /**
    * @method
    * @description update by primary key, but the primary key should be included in the params
    */
-  updateByPk(): object
+  protected updateByPk(): object
 
   /**
    * @method
    * @description update by where conditions
    * @param {string} whereClause e.g. "employeeId" = '123'
    */
-  updateByConditions(whereClause: string): object
+  protected updateByConditions(whereClause: string): object
 
   /**
    * @method
    * @description delete by where conditions
    * @param {string} whereClause e.g. "employeeId" = '123'
    */
-  deleteByConditions(whereClause: string): object
+  protected deleteByConditions(whereClause: string): object
 
   /**
    * @method
    * @description to encode value from enum to integer
    * @param {Array|Object} args the input request
    */
-  encodeFromEnum(args: Array<any> | object): Array<any> | object
+  protected encodeFromEnum(args: Array<any> | object): Array<any> | object
 
   /**
    * @method
    * @description to decaode value from integer to enum
    * @param {Array|Object} args the output response
    */
-  decodeToEnum(args: Array<any> | object): Array<any> | object
+  protected decodeToEnum(args: Array<any> | object): Array<any> | object
 }
 
 /**
  * @param {Pool} connection
  */
-export const ModelImpl: (connection: Pool) => ModelBase
+export function ModelImpl(connection: Pool): typeof ModelBase

@@ -1,18 +1,17 @@
 'use strict'
 
-const { PgLink } = require('./lib')
+const { Connection } = require('./lib/core/connection')
+const { ModelImpl } = require('./lib/model')
+const { DataType } = require('./lib/dataType')
 
-// test
-const inst = new PgLink({
-  host: 'http://192.168.1.100',
-  port: 5432,
-  useName: 'root',
-  password: '123456',
-  database: 'test'
-})
-class b extends inst.Model {
-  constructor(params) {
-    super({ tableName: 'companies', pkName: 'id', params })
+class PgLink {
+  /**
+   * @param {{host:string,port:number,userName:string,password:string,database:string,connectionMax:number}} args
+   */
+  constructor(args) {
+    const connection = Connection(args)
+    this.Model = ModelImpl(connection)
+    this.DataTypes = DataType
   }
 }
 

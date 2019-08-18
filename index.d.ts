@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
-import { DataType } from './dataType/dataType'
-import { DataAccess } from './core/dataAccess'
-import { ModelBase } from './model'
+import { DataAccess } from './lib/core/dataAccess'
+import { ModelBase } from './lib/model'
+import { DataType } from './lib/dataType'
 
 export declare class PgLink {
   constructor(args: {
@@ -36,6 +36,6 @@ export declare class PgLink {
      */
     connectionMax?: number
   })
-  public Model: ModelBase
-  public static DataType: DataType
+  public Model: typeof ModelBase
+  public DataTypes: DataType
 }

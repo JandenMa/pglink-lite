@@ -167,20 +167,20 @@ export class DataAccess {
     }>
   ): Array<object>
 
-  /**
-   * @description An execute updating helper function (DONT USE IT UNLESS ALL FIELDS ARE STRING)
-   * @param {Array<string>} updateFields the fields which you want to update
-   * @param {Array<Object>} params an array includes the fields and values you want to update
-   * @param {string} tableName the name of table
-   * @param {string} pkName the name of primary key, default 'id'
-   * @returns {Array} the responses from postgres
-   */
-  public MultiUpdateInOneTableExecutor(
-    updateFields: Array<string>,
-    params: Array<object>,
-    tableName: string,
-    pkName?: string
-  ): object
+  // /**
+  //  * @description An execute updating helper function (DONT USE IT UNLESS ALL FIELDS ARE STRING)
+  //  * @param {Array<string>} updateFields the fields which you want to update
+  //  * @param {Array<Object>} params an array includes the fields and values you want to update
+  //  * @param {string} tableName the name of table
+  //  * @param {string} pkName the name of primary key, default 'id'
+  //  * @returns {Array} the responses from postgres
+  //  */
+  // public MultiUpdateInOneTableExecutor(
+  //   updateFields: Array<string>,
+  //   params: Array<object>,
+  //   tableName: string,
+  //   pkName?: string
+  // ): object
 
   /**
    * @description An execute deleting helper function
