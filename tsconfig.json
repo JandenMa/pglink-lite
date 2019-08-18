@@ -1,13 +1,28 @@
 {
+  "module": "commonjs",
+  "target": "es2015",
   "compilerOptions": {
-    "noImplicitAny": true,
-    "module": "esnext",
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "sourceMap": false,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "pretty": true,
+    "listFiles": true,
+    "listEmittedFiles": true,
+    "lib": ["es2016"],
+    // "module": "esnext",
     "declaration": true,
     "removeComments": true,
-    "target": "es6",
-    "jsx": "react",
+    // "target": "es6",
+    // "jsx": "preserve",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["./lib/**/*"]
+  "typeRoots": ["./node_modules/@types"],
+  "include": ["./**/*"],
+  "exclude": ["node_modules", "*.test.ts", "**/*.spec.ts", "*.js"]
 }
