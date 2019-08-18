@@ -15,7 +15,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 ## Version Change Logs
 
 - **Build20190812 :** Prepared version
-- **Build20190819 : **Beta version 
+- **Build20190819 : ** Beta version 
 
 ---
 
