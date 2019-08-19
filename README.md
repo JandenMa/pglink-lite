@@ -46,7 +46,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   const pglink = new PgLink({
     host: 'http://192.168.1.100',
     port: 5432,
-    useName: 'root',
+    userName: 'root',
     password: '123456',
     database: 'test'
   })
@@ -158,7 +158,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   export const pglink = new PgLink({
     host: 'http://192.168.1.100', 
     port: 5432, 
-    useName: 'root',  
+    userName: 'root',  
     password: '123456', 
     database: 'test' 
   })
