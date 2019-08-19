@@ -19,7 +19,7 @@ export declare class PgLink {
      * @description Postgresql user name, default postgres
      * @type {string}
      */
-    useName?: string
+    userName?: string
     /**
      * @description Postgresql password, default empty
      * @type {string}
