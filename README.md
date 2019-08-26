@@ -16,7 +16,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
 - **Build20190812 :** Prepared version
 - **Build20190819 :** Beta version 
-- **Build20190826 :** Beta version 0.1.4. Fix bugs.
+- **Build20190826 :** Fix bugs.
 
 ---
 
@@ -62,8 +62,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   const pglink = require('../core/pglink')
 
   class UserModel extends pglink.Model {
-    constructor(params) {
-      super({ tableName: 'users', params, pkName: 'userId' })
+    constructor() {
+      super({ tableName: 'users', pkName: 'userId' })
     }
   }
 
@@ -113,20 +113,20 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   const UserModel = require('../models/users.js')
 
   const getUserById = async (_, args) => {
-    const inst = new UserModel(null)
+    const inst = new UserModel()
     const res = await inst.findByPk(args.userId)
     return res
   }
 
   const insertUser = async (_, args) => {
-    const inst = new UserModel({ ...args.user })
-    const res = await inst.insertOne()
+    const inst = new UserModel()
+    const res = await inst.insertOne({ ...args.user })
     return res
   }
 
   const editUser = async (_, args) => {
-    const inst = new UserModel({ ...args.user })
-    const res = await inst.updateByPk()
+    const inst = new UserModel()
+    const res = await inst.updateByPk({ ...args.user })
     return res
   }
 
@@ -184,7 +184,6 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
     constructor(params) {
       super({ 
         tableName: 'users', 
-        params, 
         pkName: 'No', 
         enumMapping: {
           sex: { MALE: 1, FAMALE: 0 },
@@ -195,31 +194,30 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
     // if you need rewrite inner funtions or add some functions, write here
   }
   ```
-
-  - constructor props : `object`
-
-    | Key         | Type             | Introduction                                                 | Required |
-    | ----------- | ---------------- | ------------------------------------------------------------ | -------- |
-    | tableName   | `string`         | the data table in postgresql you need to operate             | true     |
-    | params      | `object | array` | the data from resolver                                       | true     |
-    | pkName      | `string`         | the name of primary key in the data table, default `id`      | false    |
-    | enumMapping | `object`         | to defined the key and value, key should be included in the fields, e.g. {role: {ADMIN: 0, USER: 1}} | false    |
-
+  
+- constructor props : `object`
+  
+  | Key         | Type     | Introduction                                                 | Required |
+    | ----------- | -------- | ------------------------------------------------------------ | -------- |
+    | tableName   | `string` | the data table in postgresql you need to operate             | true     |
+    | pkName      | `string` | the name of primary key in the data table, default `id`      | false    |
+    | enumMapping | `object` | to defined the key and value, key should be included in the fields, e.g. {role: {ADMIN: 0, USER: 1}} | false    |
+    
   - inner properties or functions
 
     | name               | Type       | Introduction                             | Parameters                                                   | Return                                           | Remark                |
-    | ------------------ | ---------- | ---------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------ | --------------------- |
+  | ------------------ | ---------- | ---------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------ | --------------------- |
     | dataAccess         | `object`   | A data table operator (CRUD)             | -                                                            | -                                                | see the details below |
     | findAll            | `function` | For querying all rows                    | -                                                            | all rows data or error                           | Promise               |
     | findByPk           | `function` | For querying by primary key              | `pkValue`: stringnum, <br />`selectFields`: string, default * | one row data or error                            | Promise               |
     | findByConditions   | `function` | For querying by conditions               | `whereClause`: string (' name = "Tim" '), <br />`selectFields`: string, default * | some rows data or error                          | Promise               |
-    | insertOne          | `function` | For inserting one row to a table         | -                                                            | inserted row data or errors                      | Promise               |
-    | updateByPk         | `function` | For updating by primary key              | -                                                            | updated row data or errors                       | Promise               |
-    | updateByConditions | `function` | For updating by conditions               | `whereClause`: string (' name = "Tim" ')                     | updated rows data or errors                      | Promise               |
+    | insertOne          | `function` | For inserting one row to a table         | `params`:object (data from resolver)                         | inserted row data or errors                      | Promise               |
+    | updateByPk         | `function` | For updating by primary key              | `params`:object (data from resolver, have to include pkName and pkValue) | updated row data or errors                       | Promise               |
+    | updateByConditions | `function` | For updating by conditions               | `params`:object (data from resolver)<br />`whereClause`: string (' name = "Tim" ') | updated rows data or errors                      | Promise               |
     | deleteByConditions | `function` | For deleting by conditions               | `whereClause`: string (' name = "Tim" ')                     | deleted rows data or errors                      | Promise               |
     | encodeFromEnum     | `function` | For encoding the enum to integer value   | input data, object or array                                  | same structure of input data, with encoded enum  | object                |
     | decodeToEnum       | `function` | For decoding the enum from integer value | output data, object or array                                 | same structure of output data, with decoded enum | object                |
-
+  
   - dataAccess functions
 
     1. **Transaction**
@@ -231,7 +229,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters: 
 
          ```javascript
-         args: {
+       args: {
            params: Array<{
             	sql: string
              replacements?: Array<any>
@@ -241,7 +239,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          },
          transaction: Function // callback function or Transaction
          ```
-
+  
        - Returns
 
          reponse from database
@@ -255,20 +253,20 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          ```js
-         params: object, //data from resolver, includes inserted fields and values
+       params: object, //data from resolver, includes inserted fields and values
          tableName: string //name of inserted table 
          ```
-
+  
        - Returns
 
          ``` javascript
-         {
+       {
            sql: string
            replacement: Array<any>
            tableName: string
          }
          ```
-
+  
     3. **GenerateMultiInsertSQL**
 
        - Introduction
@@ -278,21 +276,21 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          ``` js
-         insertFields: Array<string>,
+       insertFields: Array<string>,
          params: object, //data from resolver, includes inserted fields and values
          tableName: string //name of inserted table 
          ```
-
+  
        - Returns
 
          ```javascript
-         {
+       {
            sql: string
            replacement: Array<any>
            tableName: string
          }
          ```
-
+  
     4. **GenerateUpdateSQL**
 
        - Introduction
@@ -302,7 +300,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          ``` javascript
-         {
+       {
              /** an object includes the fields and values you want to update */
              params: object
              /** the name of table */
@@ -315,17 +313,17 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              autoSetTimeFields?: Array<string>
          }
          ```
-
+  
        - Returns
 
          ```javascript
-         {
+       {
            sql: string
            replacement: Array<any>
            tableName: string
          }
          ```
-
+  
     5. **InsertExecutor**
 
        - Introduction 
@@ -335,10 +333,10 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          ```js
-         params: object, //data from resolver, includes inserted fields and values
+       params: object, //data from resolver, includes inserted fields and values
          tableName: string //name of inserted table 
          ```
-
+  
        - Returns 
 
          response from database
@@ -352,11 +350,11 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          ```js
-         insertFields: Array<string>,
+       insertFields: Array<string>,
          params: object, //data from resolver, includes inserted fields and values
          tableName: string //name of inserted table 
          ```
-
+  
        - Returns
 
          response from database
@@ -370,14 +368,14 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          ``` javascript
-         Array<
+       Array<
            {
              params: object, //data from resolver, includes inserted fields and values
              tableName: string //name of inserted table 
          	}
          >
          ```
-
+  
        - Returns
 
          response from database
@@ -391,11 +389,11 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          ``` javascript
-         params: object, //data from resolver, includes updated fields and values
+       params: object, //data from resolver, includes updated fields and values
          tableName: string, //name of inserted table 
          pkName?: string //the name of primary key
          ```
-
+  
        - Returns
 
          response from database
@@ -409,11 +407,11 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          ```javascript
-         params: object, //data from resolver, includes updated fields and values
+       params: object, //data from resolver, includes updated fields and values
          tableName: string, //name of inserted table 
          whereClause?: string //e.g. "employeeId" = '123'
          ```
-
+  
        - Returns
 
          response from database
@@ -427,7 +425,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Parameters
 
           ```javascript
-          Array<
+        Array<
             {
             	params: object, //data from resolver, includes updated fields and values
           		tableName: string, //name of inserted table 
@@ -436,7 +434,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
             }
           >
           ```
-
+  
         - Returns
 
           response from database
@@ -450,10 +448,10 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Parameters
 
           ```javascript
-          tableName: string, //name of inserted table 
+        tableName: string, //name of inserted table 
           whereClause?: string //e.g. "employeeId" = '123'
           ```
-
+  
         - Returns
 
           response from database
@@ -467,7 +465,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Parameters
 
           ``` javascript
-          {
+        {
               /** the name of table */
               tableName: string
               /** e.g. "employeeId" = '123' */
@@ -482,7 +480,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
               offset?: number
            }
           ```
-
+  
         - Returns
 
           response from database

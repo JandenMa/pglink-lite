@@ -11,14 +11,11 @@ export class ModelBase {
   /**
    * @constructor
    * @description A base class for other classes to operate CRUD
-   * @param {Object} params an object includes the fields and values
    * @param {string} tableName the name of table
    * @param {string} [pkName] the name of primary key, default 'id'
    * @param {Object} [enumMapping] to defined the key and value, key should be included in the fields, e.g. {role: {ADMIN: 0, USER: 1}}
    */
   constructor(props: {
-    /** an object includes the fields and values */
-    params: object
     /** the name of table */
     tableName: string
     /** the name of primary key, default 'id' */
@@ -58,21 +55,24 @@ export class ModelBase {
   /**
    * @method
    * @description insert one row
+   * @param {Object} params an object includes the fields and values
    */
-  protected insertOne(): object
+  protected insertOne(params: object): object
 
   /**
    * @method
    * @description update by primary key, but the primary key should be included in the params
+   * @param {Object} params an object includes the fields and values
    */
-  protected updateByPk(): object
+  protected updateByPk(params: object): object
 
   /**
    * @method
    * @description update by where conditions
+   * @param {Object} params an object includes the fields and values
    * @param {string} whereClause e.g. "employeeId" = '123'
    */
-  protected updateByConditions(whereClause: string): object
+  protected updateByConditions(params: object, whereClause: string): object
 
   /**
    * @method
