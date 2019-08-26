@@ -143,9 +143,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Import library package**
 
   ``` javascript
-  import { PgLink } = 'pglink-lite'
+  import { PgLink } from 'pglink-lite'
   // or
-  import PgLink = 'pglink-lite'
+  import PgLink from 'pglink-lite'
   // or
   const { PgLink } = 'pglink-lite'
   // or
