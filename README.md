@@ -387,7 +387,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   
        - Parameters: 
   
-         ```javascript
+         ``` javascript
        args: {
            params: Array<{
             	sql: string
@@ -411,7 +411,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   
        - Parameters
   
-         ```js
+         ``` javascript
        params: object, //data from resolver, includes inserted fields and values
          tableName: string //name of inserted table 
          ```
