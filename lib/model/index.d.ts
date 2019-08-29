@@ -39,7 +39,7 @@ export class ModelBase {
    * @param pk primary key value
    * @param selectFields default "*"
    */
-  private findByPK(pk: string | number, selectFields?: string): object
+  protected findByPK(pk: string | number, selectFields?: string): object
 
   /**
    * @method
@@ -61,6 +61,13 @@ export class ModelBase {
 
   /**
    * @method
+   * @description multiple insert
+   * @param {Array<object>} items the array of data to be inserted into table
+   */
+  protected multiInsert(items: Array<object>): Array<any>
+
+  /**
+   * @method
    * @description update by primary key, but the primary key should be included in the params
    * @param {Object} params an object includes the fields and values
    */
@@ -73,6 +80,19 @@ export class ModelBase {
    * @param {string} whereClause e.g. "employeeId" = '123'
    */
   protected updateByConditions(params: object, whereClause: string): object
+
+  /**
+   * @method
+   * @description multiple update by where conditions
+   * @param {Array<object>} items the array of data to be inserted into table
+   * @param {string} whereClause e.g. "companyId = $1"
+   * @param {Array<string>} replacementFields e.g ['companyId']
+   */
+  protected multiUpdateWithConditions(
+    items: Array<object>,
+    whereClause?: string,
+    replacementFields?: Array<string>
+  ): Array<any>
 
   /**
    * @method

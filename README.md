@@ -17,6 +17,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20190812 :** Prepared version
 - **Build20190819 :** Beta version 
 - **Build20190826 :** Fix bugs.
+- **Build20190829 :** Add multi insert and update functions.
 
 ---
 
@@ -195,112 +196,271 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   }
   ```
   
-- constructor props : `object`
+  - constructor props : `object`
   
   | Key         | Type     | Introduction                                                 | Required |
-    | ----------- | -------- | ------------------------------------------------------------ | -------- |
-    | tableName   | `string` | the data table in postgresql you need to operate             | true     |
-    | pkName      | `string` | the name of primary key in the data table, default `id`      | false    |
-    | enumMapping | `object` | to defined the key and value, key should be included in the fields, e.g. {role: {ADMIN: 0, USER: 1}} | false    |
-    
+  | ----------- | -------- | ------------------------------------------------------------ | -------- |
+  | tableName   | `string` | the data table in postgresql you need to operate             | true     |
+  | pkName      | `string` | the name of primary key in the data table, default `id`      | false    |
+  | enumMapping | `object` | to defined the key and value, key should be included in the fields, e.g. {role: {ADMIN: 0, USER: 1}} | false    |
+  
   - inner properties or functions
-
-    | name               | Type       | Introduction                             | Parameters                                                   | Return                                           | Remark                |
-  | ------------------ | ---------- | ---------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------ | --------------------- |
-    | dataAccess         | `object`   | A data table operator (CRUD)             | -                                                            | -                                                | see the details below |
-    | findAll            | `function` | For querying all rows                    | -                                                            | all rows data or error                           | Promise               |
-    | findByPk           | `function` | For querying by primary key              | `pkValue`: stringnum, <br />`selectFields`: string, default * | one row data or error                            | Promise               |
-    | findByConditions   | `function` | For querying by conditions               | `whereClause`: string (' name = "Tim" '), <br />`selectFields`: string, default * | some rows data or error                          | Promise               |
-    | insertOne          | `function` | For inserting one row to a table         | `params`:object (data from resolver)                         | inserted row data or errors                      | Promise               |
-    | updateByPk         | `function` | For updating by primary key              | `params`:object (data from resolver, have to include pkName and pkValue) | updated row data or errors                       | Promise               |
-    | updateByConditions | `function` | For updating by conditions               | `params`:object (data from resolver) `whereClause`: string (' name = "Tim" ') | updated rows data or errors                      | Promise               |
-    | deleteByConditions | `function` | For deleting by conditions               | `whereClause`: string (' name = "Tim" ')                     | deleted rows data or errors                      | Promise               |
-    | encodeFromEnum     | `function` | For encoding the enum to integer value   | input data, object or array                                  | same structure of input data, with encoded enum  | object                |
-    | decodeToEnum       | `function` | For decoding the enum from integer value | output data, object or array                                 | same structure of output data, with decoded enum | object                |
+  
+    1. **dataAccess**
+  
+       - Introduction
+  
+         A data table operator (CRUD)
+  
+       - see the details below
+  
+    2. **findAll**
+  
+       - Introduction
+  
+         A function for querying all rows from one table
+  
+       - Parameters
+  
+         null
+  
+       - Returns
+  
+         (Promise) All rows data or error
+  
+    3. **findByPk**
+  
+       - Introduction
+  
+         A function for querying by primary key
+  
+       - Parameters
+  
+         `pkValue`: string | number
+  
+         `selectFields`: string, default *
+  
+       - Returns
+  
+         (Promise) One row data or error
+  
+    4. **findByConditions**
+  
+       - Introduction
+  
+         A function for querying by conditions
+  
+       - Parameters
+  
+         `whereClause`: string.  (e.g.  ' name = "Tim" ') 
+  
+         `selectFields`: string, default *
+  
+       - Returns
+  
+         (Promise) Some rows data or error
+  
+    5. **InsertOne**
+  
+       - Introduction
+  
+         A function for inserting one row to a table
+  
+       - Parameters
+  
+         `params`: object. (data from resolver)
+  
+       - Returns
+  
+         (Promise) Inserted row data or errors
+  
+    6. **multiInsert**
+  
+       - Introduction
+  
+         A function for inserting multi rows to a table
+  
+       - Parameters
+  
+         `items`: Array\<object\>. (data from resolver)
+  
+       - Returns
+  
+         (Promise) Inserted rows data or errors
+  
+    7. **updateByPk**
+  
+       - Introduction
+  
+         A function for updating by primary key
+  
+       - Parameters
+  
+         `params`: object. (data from resolver, have to include pkName and pkValue)
+  
+       - Returns
+  
+         (Promise) updated row data or errors
+  
+    8. **updateByConditions**
+  
+       - Introduction
+  
+         A function for updating by conditions
+  
+       - Parameters
+  
+         `params`: object. (data from resolver)
+  
+         `whereClause`: string.  (e.g.  ' name = "Tim" ') 
+  
+       - Returns
+  
+         (Promise) updated rows data or errors
+  
+    9. **multiUpdateWithConditions**
+  
+       - Introduction
+  
+         A function for multi updating by conditions
+  
+       - Parameters
+  
+         `items`: Array\<object\>. (data from resolver)
+  
+         `whereClause`: string with replacements.  (e.g.  ' company = $1 ')
+  
+         `replacementFields`: Array\<string\> (e.g. ['company']) 
+  
+       - Returns
+  
+         (Promise) Updated rows data or errors
+  
+    10. **deleteByConditions**
+  
+        - Introduction
+  
+          A function for deleting by conditions
+  
+        - Parameters
+  
+          `whereClause`: string.  (e.g.  ' "companyId" = 1001 ') 
+  
+        - Returns
+  
+          (Promise) Deleted rows data or errors
+  
+    11. **encodeFromEnum**
+  
+        - Introduction
+  
+          A function for encoding the enum to integer value
+  
+        - Parameters
+  
+          `data`: object | Array.  (input data) 
+  
+        - Returns
+  
+          (Object) Same structure of input data, with encoded enum
+  
+    12. **decodeToEnum**
+  
+        - Introduction
+  
+          A function for decoding the enum from integer value
+  
+        - Parameters
+  
+          `data`: object | Array.  (output data) 
+  
+        - Returns
+  
+          (Object) Same structure of output data, with decoded enum
   
   - dataAccess functions
-
+  
     1. **Transaction**
-
+  
        - Introduction
-
+  
          core function with transaction
-
+  
        - Parameters: 
-
-         ```javascript
-       args: {
-           params: Array<{
-            	sql: string
-             replacements?: Array<any>
-             tableName?: string
-           }>
-           returnTableName?: boolean
-         },
-         transaction: Function // callback function or Transaction
-         ```
+  
+         `````` javascript
+          args: {
+             params: Array<{
+               sql: string
+               replacements?: Array<any>
+               tableName?: string
+             }>
+             returnTableName?: boolean
+          },
+          transaction: Function // callback function or Transaction
+         ``````
   
        - Returns
-
+  
          reponse from database
-
+  
     2. **GenerateInsertSQL**
-
+  
        - Introduction
-
+  
          generate insert sql object
-
+  
        - Parameters
-
-         ```js
-       params: object, //data from resolver, includes inserted fields and values
-         tableName: string //name of inserted table 
+  
+         ``` javascript
+           params: object, //data from resolver, includes inserted fields and values
+           tableName: string //name of inserted table 
          ```
   
        - Returns
-
+  
          ``` javascript
-       {
-           sql: string
-           replacement: Array<any>
-           tableName: string
-         }
+          {
+             sql: string
+             replacement: Array<any>
+             tableName: string
+          }
          ```
   
     3. **GenerateMultiInsertSQL**
-
+  
        - Introduction
-
+  
          generate bulk insert sql object
-
+  
        - Parameters
-
+  
          ``` js
-       insertFields: Array<string>,
-         params: object, //data from resolver, includes inserted fields and values
-         tableName: string //name of inserted table 
+           insertFields: Array<string>,
+           params: object, //data from resolver, includes inserted fields and values
+           tableName: string //name of inserted table 
          ```
   
        - Returns
-
+  
          ```javascript
-       {
-           sql: string
-           replacement: Array<any>
-           tableName: string
-         }
+          {
+             sql: string
+             replacement: Array<any>
+             tableName: string
+          }
          ```
   
     4. **GenerateUpdateSQL**
-
+  
        - Introduction
-
+  
          generate update sql object
-
+  
        - Parameters
-
+  
          ``` javascript
-       {
+          {
              /** an object includes the fields and values you want to update */
              params: object
              /** the name of table */
@@ -311,121 +471,121 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              pkName?: string
              /** those fields need to set time automatically */
              autoSetTimeFields?: Array<string>
-         }
+          }
          ```
   
        - Returns
-
+  
          ```javascript
-       {
-           sql: string
-           replacement: Array<any>
-           tableName: string
-         }
+          {
+             sql: string
+             replacement: Array<any>
+             tableName: string
+          }
          ```
   
     5. **InsertExecutor**
-
+  
        - Introduction 
-
+  
          execute insert sql
-
+  
        - Parameters
-
+  
          ```js
-       params: object, //data from resolver, includes inserted fields and values
-         tableName: string //name of inserted table 
+          params: object, //data from resolver, includes inserted fields and values
+          tableName: string //name of inserted table 
          ```
   
        - Returns 
-
+  
          response from database
-
+  
     6. **MultiInsertToOneTableExecutor**
-
+  
        - Introduction
-
+  
          execute insert sqls to one table
-
+  
        - Parameters
-
+  
          ```js
-       insertFields: Array<string>,
-         params: object, //data from resolver, includes inserted fields and values
-         tableName: string //name of inserted table 
+            insertFields: Array<string>,
+            params: object, //data from resolver, includes inserted fields and values
+            tableName: string //name of inserted table 
          ```
   
        - Returns
-
+  
          response from database
-
+  
     7. **MultiInsertExecutor**
-
+  
        - Introduction
-
+  
          execute insert sqls to deferent tables
-
+  
        - Parameters
-
+  
          ``` javascript
-       Array<
-           {
+          Array<
+          {
              params: object, //data from resolver, includes inserted fields and values
              tableName: string //name of inserted table 
-         	}
-         >
+          }
+          >
          ```
   
        - Returns
-
+  
          response from database
-
+  
     8. **UpdateByPkExecutor**
-
+  
        - Introduction
-
+  
          execute update sql by primary key
-
+  
        - Parameters
-
+  
          ``` javascript
-       params: object, //data from resolver, includes updated fields and values
-         tableName: string, //name of inserted table 
-         pkName?: string //the name of primary key
+          params: object, //data from resolver, includes updated fields and values
+          tableName: string, //name of inserted table 
+          pkName?: string //the name of primary key
          ```
   
        - Returns
-
+  
          response from database
-
+  
     9. **UpdateExecutor**
-
+  
        - Introduction
-
+  
          execute update sql by conditions
-
+  
        - Parameters
-
+  
          ```javascript
-       params: object, //data from resolver, includes updated fields and values
-         tableName: string, //name of inserted table 
-         whereClause?: string //e.g. "employeeId" = '123'
+          params: object, //data from resolver, includes updated fields and values
+          tableName: string, //name of inserted table 
+          whereClause?: string //e.g. "employeeId" = '123'
          ```
   
        - Returns
-
+  
          response from database
-
+  
     10. **MultiUpdateExecutor**
-
+  
         - Introduction
-
+  
           execute bulk update sqls by conditions
-
+  
         - Parameters
-
+  
           ```javascript
-        Array<
+          Array<
             {
             	params: object, //data from resolver, includes updated fields and values
           		tableName: string, //name of inserted table 
@@ -436,36 +596,36 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           ```
   
         - Returns
-
+  
           response from database
-
+  
     11. **DeleteExecutor**
-
+  
         - Introduction
-
+  
           execute delete sql by conditions
-
+  
         - Parameters
-
+  
           ```javascript
-        tableName: string, //name of inserted table 
+          tableName: string, //name of inserted table 
           whereClause?: string //e.g. "employeeId" = '123'
           ```
   
         - Returns
-
+  
           response from database
-
+  
     12. **SingleQueryExecutor**
-
+  
         - Introduction
-
+  
           execute query sql
-
+  
         - Parameters
-
+  
           ``` javascript
-        {
+          {
               /** the name of table */
               tableName: string
               /** e.g. "employeeId" = '123' */
@@ -482,5 +642,5 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           ```
   
         - Returns
-
+  
           response from database
