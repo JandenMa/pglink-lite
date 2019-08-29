@@ -17,6 +17,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20190812 :** Prepared version
 - **Build20190819 :** Beta version 
 - **Build20190826 :** Fix bugs.
+- **Build20190829 :** Add multi insert and update functions.
 
 ---
 
@@ -387,17 +388,17 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   
        - Parameters: 
   
-         ``` javascript
-       args: {
-           params: Array<{
-            	sql: string
-             replacements?: Array<any>
-             tableName?: string
-           }>
-           returnTableName?: boolean
-         },
-         transaction: Function // callback function or Transaction
-         ```
+         `````` javascript
+          args: {
+             params: Array<{
+               sql: string
+               replacements?: Array<any>
+               tableName?: string
+             }>
+             returnTableName?: boolean
+          },
+          transaction: Function // callback function or Transaction
+         ``````
   
        - Returns
   
@@ -412,18 +413,18 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
   
          ``` javascript
-       params: object, //data from resolver, includes inserted fields and values
-         tableName: string //name of inserted table 
+           params: object, //data from resolver, includes inserted fields and values
+           tableName: string //name of inserted table 
          ```
   
        - Returns
   
          ``` javascript
-       {
-           sql: string
-           replacement: Array<any>
-           tableName: string
-         }
+          {
+             sql: string
+             replacement: Array<any>
+             tableName: string
+          }
          ```
   
     3. **GenerateMultiInsertSQL**
@@ -435,19 +436,19 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
   
          ``` js
-       insertFields: Array<string>,
-         params: object, //data from resolver, includes inserted fields and values
-         tableName: string //name of inserted table 
+           insertFields: Array<string>,
+           params: object, //data from resolver, includes inserted fields and values
+           tableName: string //name of inserted table 
          ```
   
        - Returns
   
          ```javascript
-       {
-           sql: string
-           replacement: Array<any>
-           tableName: string
-         }
+          {
+             sql: string
+             replacement: Array<any>
+             tableName: string
+          }
          ```
   
     4. **GenerateUpdateSQL**
@@ -459,7 +460,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
   
          ``` javascript
-       {
+          {
              /** an object includes the fields and values you want to update */
              params: object
              /** the name of table */
@@ -470,17 +471,17 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              pkName?: string
              /** those fields need to set time automatically */
              autoSetTimeFields?: Array<string>
-         }
+          }
          ```
   
        - Returns
   
          ```javascript
-       {
-           sql: string
-           replacement: Array<any>
-           tableName: string
-         }
+          {
+             sql: string
+             replacement: Array<any>
+             tableName: string
+          }
          ```
   
     5. **InsertExecutor**
@@ -492,8 +493,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
   
          ```js
-       params: object, //data from resolver, includes inserted fields and values
-         tableName: string //name of inserted table 
+          params: object, //data from resolver, includes inserted fields and values
+          tableName: string //name of inserted table 
          ```
   
        - Returns 
@@ -509,9 +510,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
   
          ```js
-       insertFields: Array<string>,
-         params: object, //data from resolver, includes inserted fields and values
-         tableName: string //name of inserted table 
+            insertFields: Array<string>,
+            params: object, //data from resolver, includes inserted fields and values
+            tableName: string //name of inserted table 
          ```
   
        - Returns
@@ -527,12 +528,12 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
   
          ``` javascript
-       Array<
-           {
+          Array<
+          {
              params: object, //data from resolver, includes inserted fields and values
              tableName: string //name of inserted table 
-         	}
-         >
+          }
+          >
          ```
   
        - Returns
@@ -548,9 +549,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
   
          ``` javascript
-       params: object, //data from resolver, includes updated fields and values
-         tableName: string, //name of inserted table 
-         pkName?: string //the name of primary key
+          params: object, //data from resolver, includes updated fields and values
+          tableName: string, //name of inserted table 
+          pkName?: string //the name of primary key
          ```
   
        - Returns
@@ -566,9 +567,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
   
          ```javascript
-       params: object, //data from resolver, includes updated fields and values
-         tableName: string, //name of inserted table 
-         whereClause?: string //e.g. "employeeId" = '123'
+          params: object, //data from resolver, includes updated fields and values
+          tableName: string, //name of inserted table 
+          whereClause?: string //e.g. "employeeId" = '123'
          ```
   
        - Returns
@@ -584,7 +585,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Parameters
   
           ```javascript
-        Array<
+          Array<
             {
             	params: object, //data from resolver, includes updated fields and values
           		tableName: string, //name of inserted table 
@@ -607,7 +608,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Parameters
   
           ```javascript
-        tableName: string, //name of inserted table 
+          tableName: string, //name of inserted table 
           whereClause?: string //e.g. "employeeId" = '123'
           ```
   
@@ -624,7 +625,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Parameters
   
           ``` javascript
-        {
+          {
               /** the name of table */
               tableName: string
               /** e.g. "employeeId" = '123' */
