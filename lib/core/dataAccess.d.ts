@@ -132,12 +132,14 @@ export class DataAccess {
    * @param {object} params an object includes the fields and values you want to update, must includes primary key and its value
    * @param {string} tableName the name of table
    * @param {string} pkName the name of primary key, default 'id'
+   * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
    * @returns {object} the response from postgres
    */
   public UpdateByPkExecutor(
     params: object,
     tableName: string,
-    pkName?: string
+    pkName?: string,
+    autoSetTimeFields?: Array<string>
   ): object
 
   /**
@@ -145,17 +147,19 @@ export class DataAccess {
    * @param {object} params an object includes the fields and values you want to update, must includes primary key and its value
    * @param {string} tableName the name of table
    * @param {string} whereClause e.g. "employeeId" = '123'
+   * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
    * @returns {object} the response from postgres
    */
   public UpdateExecutor(
     params: object,
     tableName: string,
-    whereClause: string
+    whereClause: string,
+    autoSetTimeFields?: Array<string>
   ): object
 
   /**
    * @description An execute updating helper function, custom conditions
-   * @param {Array<{params: object, tableName: string, whereClause: string, pkName: string}>} items
+   * @param {Array<{params: object, tableName: string, whereClause: string, pkName: string, autoSetTimeFields: Array<string>}>} items
    * @returns {Array<object>} the response from postgres
    */
   public MultiUpdateExecutor(
@@ -164,6 +168,7 @@ export class DataAccess {
       tableName: string
       whereClause: string
       pkName: string
+      autoSetTimeFields?: Array<string>
     }>
   ): Array<object>
 

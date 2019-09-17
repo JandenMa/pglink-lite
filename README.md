@@ -18,6 +18,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20190819 :** Beta version 
 - **Build20190826 :** Fix bugs.
 - **Build20190829 :** Add multi insert and update functions.
+- **Build20190917 :** 
+  - `MultiUpdateWithConditions` bug fixes.
+  - Supports all update functions in model to set the fields, which need to update to current time automatically, when updated.
 
 ---
 
@@ -298,6 +301,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   
          `params`: object. (data from resolver, have to include pkName and pkValue)
   
+         `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
+  
        - Returns
   
          (Promise) updated row data or errors
@@ -313,6 +318,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          `params`: object. (data from resolver)
   
          `whereClause`: string.  (e.g.  ' name = "Tim" ') 
+  
+         `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
   
        - Returns
   
@@ -331,6 +338,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          `whereClause`: string with replacements.  (e.g.  ' company = $1 ')
   
          `replacementFields`: Array\<string\> (e.g. ['company']) 
+  
+         `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
   
        - Returns
   
@@ -551,25 +560,27 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          ``` javascript
           params: object, //data from resolver, includes updated fields and values
           tableName: string, //name of inserted table 
-          pkName?: string //the name of primary key
-         ```
-  
-       - Returns
-  
-         response from database
-  
-    9. **UpdateExecutor**
-  
-       - Introduction
-  
-         execute update sql by conditions
-  
-       - Parameters
-  
+          pkName?: string, //the name of primary key
+          autoSetTimeFields?: Array<string> //those fields need to set time automatically
+       ```
+    
+     - Returns
+    
+       response from database
+    
+  9. **UpdateExecutor**
+    
+     - Introduction
+    
+       execute update sql by conditions
+    
+     - Parameters
+    
          ```javascript
           params: object, //data from resolver, includes updated fields and values
           tableName: string, //name of inserted table 
-          whereClause?: string //e.g. "employeeId" = '123'
+          whereClause?: string, //e.g. "employeeId" = '123'
+        autoSetTimeFields?: Array<string> //those fields need to set time automatically
          ```
   
        - Returns
@@ -578,52 +589,53 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   
     10. **MultiUpdateExecutor**
   
-        - Introduction
+       - Introduction
   
-          execute bulk update sqls by conditions
+         execute bulk update sqls by conditions
   
+       - Parameters
+    
+         ```javascript
+         Array<
+           {
+           	params: object, //data from resolver, includes updated fields and values
+         		tableName: string, //name of inserted table 
+         		whereClause?: string //e.g. "employeeId" = '123'
+         		pkName: string, //the name of primary key
+             autoSetTimeFields?: Array<string> //those fields need to set time automatically
+         }
+         >
+       ```
+    
+     - Returns
+    
+       response from database
+    
+  11. **DeleteExecutor**
+    
+      - Introduction
+    
+        execute delete sql by conditions
+    
         - Parameters
-  
+    
           ```javascript
-          Array<
-            {
-            	params: object, //data from resolver, includes updated fields and values
-          		tableName: string, //name of inserted table 
-          		whereClause?: string //e.g. "employeeId" = '123'
-          		pkName: string //the name of primary key
-            }
-          >
-          ```
-  
-        - Returns
-  
-          response from database
-  
-    11. **DeleteExecutor**
-  
-        - Introduction
-  
-          execute delete sql by conditions
-  
-        - Parameters
-  
-          ```javascript
-          tableName: string, //name of inserted table 
+        tableName: string, //name of inserted table 
           whereClause?: string //e.g. "employeeId" = '123'
-          ```
-  
-        - Returns
-  
-          response from database
-  
-    12. **SingleQueryExecutor**
-  
-        - Introduction
-  
-          execute query sql
-  
+        ```
+    
+      - Returns
+    
+        response from database
+    
+  12. **SingleQueryExecutor**
+    
+      - Introduction
+    
+        execute query sql
+    
         - Parameters
-  
+    
           ``` javascript
           {
               /** the name of table */
@@ -637,10 +649,10 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
               /** to limit the count of rows you want to query */
               limit?: number
               /** how many rows you want to skip */
-              offset?: number
+            offset?: number
            }
-          ```
-  
+        ```
+    
         - Returns
-  
+    
           response from database

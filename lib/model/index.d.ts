@@ -70,28 +70,39 @@ export class ModelBase {
    * @method
    * @description update by primary key, but the primary key should be included in the params
    * @param {Object} params an object includes the fields and values
+   * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in items, e.g ['updatedAt']
    */
-  protected updateByPk(params: object): object
+  protected updateByPk(
+    params: object,
+    autoSetTimeFields?: Array<string>
+  ): object
 
   /**
    * @method
    * @description update by where conditions
    * @param {Object} params an object includes the fields and values
    * @param {string} whereClause e.g. "employeeId" = '123'
+   * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
    */
-  protected updateByConditions(params: object, whereClause: string): object
+  protected updateByConditions(
+    params: object,
+    whereClause: string,
+    autoSetTimeFields?: Array<string>
+  ): object
 
   /**
    * @method
    * @description multiple update by where conditions
-   * @param {Array<object>} items the array of data to be inserted into table
+   * @param {Array<object>} items the array of data to be updated into table
    * @param {string} whereClause e.g. "companyId = $1"
    * @param {Array<string>} replacementFields e.g ['companyId']
+   * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in items, e.g ['updatedAt']
    */
   protected multiUpdateWithConditions(
     items: Array<object>,
     whereClause?: string,
-    replacementFields?: Array<string>
+    replacementFields?: Array<string>,
+    autoSetTimeFields?: Array<string>
   ): Array<any>
 
   /**
