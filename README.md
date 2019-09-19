@@ -180,7 +180,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
     | password                | `string`        | Postgresql server password                                   | ""_(empty)_   |
     | database                | `string`        | Postgresql database name                                     | "postgres"    |
     | connectionMax           | `number`        | Postgresql database max connection                           | 10            |
-    | globalAutoSetTimeFields | `Array<string>` | To define fields that should be automatically updated with a current timestamp | []            |
+    | globalAutoSetTimeFields | `Array<string>` | To define fields that should be automatically updated with a current timestamp | ['createdAt', 'updatedAt']            |
 
 - **Inherit and declare model**
 
