@@ -16,7 +16,7 @@ class PgLink {
       userName,
       database,
       connectionMax,
-      globalAutoSetTimeFields = []
+      globalAutoSetTimeFields = [] // v0.1.8 for whole app to use
     } = args
     const connection = Connection({
       host,
