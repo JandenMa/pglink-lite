@@ -48,15 +48,16 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   ```javascript
   // core/pgsqlize.js
   const { PgLink } = require('pglink-lite')
-
+  
   const pglink = new PgLink({
     host: 'http://192.168.1.100',
     port: 5432,
     userName: 'root',
     password: '123456',
-    database: 'test'
+    database: 'test', 
+    globalAutoSetTimeFields: ['updatedAt']
   })
-
+  
   module.exports.default = pglink
   ```
 
@@ -166,7 +167,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
     port: 5432, 
     userName: 'root',  
     password: '123456', 
-    database: 'test' 
+    database: 'test'
   })
   ```
 
