@@ -35,6 +35,11 @@ export declare class PgLink {
      * @type {number}
      */
     connectionMax?: number
+    /**
+     * @description used to define fields that should be automatically updated with a current timestamp default []
+     * @type {Array<string>}
+     */
+    globalAutoSetTimeFields?: Array<string>
   })
   public Model: typeof ModelBase
   public DataTypes: DataType
