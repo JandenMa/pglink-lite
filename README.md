@@ -21,6 +21,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20190917 :** 
   - `MultiUpdateWithConditions` bug fixes.
   - Supports all update functions in model to set the fields, which need to update to current time automatically, when updated.
+- **Build20190919 :** Supports set global parameter `globalAutoSetTimeFields` 
 
 ---
 
@@ -171,14 +172,15 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
   - Props: `object`
 
-    | Key           | Type     | Introduction                       | Default value |
-    | ------------- | -------- | ---------------------------------- | ------------- |
-    | host          | `string` | Postgresql server host             | "localhost"   |
-    | port          | `number` | Postgresql server port             | 5432          |
-    | userName      | `string` | Postgresql server user name        | "postgres"    |
-    | password      | `string` | Postgresql server password         | ""_(empty)_   |
-    | database      | `string` | Postgresql database name           | "postgres"    |
-    | connectionMax | `number` | Postgresql database max connection | 10            |
+    | Key                     | Type            | Introduction                                                 | Default value |
+    | ----------------------- | --------------- | ------------------------------------------------------------ | ------------- |
+    | host                    | `string`        | Postgresql server host                                       | "localhost"   |
+    | port                    | `number`        | Postgresql server port                                       | 5432          |
+    | userName                | `string`        | Postgresql server user name                                  | "postgres"    |
+    | password                | `string`        | Postgresql server password                                   | ""_(empty)_   |
+    | database                | `string`        | Postgresql database name                                     | "postgres"    |
+    | connectionMax           | `number`        | Postgresql database max connection                           | 10            |
+    | globalAutoSetTimeFields | `Array<string>` | To define fields that should be automatically updated with a current timestamp | []            |
 
 - **Inherit and declare model**
 
@@ -478,7 +480,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              whereClause?: string
              /** the name of primary key, default 'id' */
              pkName?: string
-             /** those fields need to set time automatically */
+             /** those fields need to set time automatically, default value is from globalAutoSetTimeFields. We will check whether fields included in the table, if not, skip */
              autoSetTimeFields?: Array<string>
           }
          ```
@@ -562,28 +564,28 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           tableName: string, //name of inserted table 
           pkName?: string, //the name of primary key
           autoSetTimeFields?: Array<string> //those fields need to set time automatically
-       ```
+         ```
     
-     - Returns
+       - Returns
     
-       response from database
+         response from database
     
-  9. **UpdateExecutor**
+    9. **UpdateExecutor**
     
-     - Introduction
+       - Introduction
     
        execute update sql by conditions
     
-     - Parameters
+       - Parameters
     
          ```javascript
-          params: object, //data from resolver, includes updated fields and values
-          tableName: string, //name of inserted table 
-          whereClause?: string, //e.g. "employeeId" = '123'
-        autoSetTimeFields?: Array<string> //those fields need to set time automatically
+         params: object, //data from resolver, includes updated fields and values
+         tableName: string, //name of inserted table 
+         whereClause?: string, //e.g. "employeeId" = '123'
+         autoSetTimeFields?: Array<string> //those fields need to set time automatically
          ```
   
-       - Returns
+       - Returns 
   
          response from database
   
@@ -594,7 +596,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          execute bulk update sqls by conditions
   
        - Parameters
-    
+       
          ```javascript
          Array<
            {
@@ -605,38 +607,37 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              autoSetTimeFields?: Array<string> //those fields need to set time automatically
          }
          >
-       ```
+         ```
+  
+       - Returns
+       
+         response from database
+  
+    11. **DeleteExecutor**
     
-     - Returns
+       - Introduction
+       
+         execute delete sql by conditions
+       
+       - Parameters
+       
+         ```javascript
+         tableName: string, //name of inserted table 
+         whereClause?: string //e.g. "employeeId" = '123'
+         ```
+       - Returns
+
+         response from database
     
-       response from database
+    12. **SingleQueryExecutor**
     
-  11. **DeleteExecutor**
-    
-      - Introduction
-    
-        execute delete sql by conditions
-    
-        - Parameters
-    
-          ```javascript
-        tableName: string, //name of inserted table 
-          whereClause?: string //e.g. "employeeId" = '123'
-        ```
-    
-      - Returns
-    
-        response from database
-    
-  12. **SingleQueryExecutor**
-    
-      - Introduction
-    
-        execute query sql
-    
-        - Parameters
-    
-          ``` javascript
+       - Introduction
+       
+         execute query sql
+       
+       - Parameters
+       
+         ``` javascript
           {
               /** the name of table */
               tableName: string
@@ -649,10 +650,10 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
               /** to limit the count of rows you want to query */
               limit?: number
               /** how many rows you want to skip */
-            offset?: number
+            	offset?: number
            }
-        ```
-    
-        - Returns
-    
-          response from database
+         ```
+        
+       - Returns
+       
+         response from database
