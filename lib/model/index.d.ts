@@ -12,8 +12,9 @@ export class ModelBase {
    * @constructor
    * @description A base class for other classes to operate CRUD
    * @param {string} tableName the name of table
-   * @param {string} [pkName] the name of primary key, default 'id'
-   * @param {Object} [enumMapping] to defined the key and value, key should be included in the fields, e.g. {role: {ADMIN: 0, USER: 1}}
+   * @param {string} pkName the name of primary key, default 'id'
+   * @param {Object} enumMapping to defined the key and value, key should be included in the fields, e.g. {role: {ADMIN: 0, USER: 1}}
+   * @param {Array<string>} autoSetTimeFields used to define fields that should be automatically updated with a current timestamp default from globalAutoSetTimeFields
    */
   constructor(props: {
     /** the name of table */
@@ -22,6 +23,8 @@ export class ModelBase {
     pkName?: string
     /** to defined the key and value, key should be included in the fields, e.g. {role: {ADMIN: 0, USER: 1}} */
     enumMapping?: object
+    /** used to define fields that should be automatically updated with a current timestamp default from globalAutoSetTimeFields */
+    autoSetTimeFields?: Array<string>
   })
 
   /** db operator */
@@ -129,5 +132,9 @@ export class ModelBase {
 
 /**
  * @param {Pool} connection
+ * @param {Array<string>} globalAutoSetTimeFields used to define fields that should be automatically updated with a current timestamp default []
  */
-export function ModelImpl(connection: Pool): typeof ModelBase
+export function ModelImpl(
+  connection: Pool,
+  globalAutoSetTimeFields: Array<string>
+): typeof ModelBase
