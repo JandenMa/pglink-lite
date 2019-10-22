@@ -23,6 +23,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   - Added `Execute` function in `dataAccess` to run a single query
   - Bug fixes
   - Optimized something
+- **Build200191022 :** Update README.
 
 ---
 
@@ -412,7 +413,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          const sqlStatement = `SQL STATEMENT GOES HERE`
          const res = await this.dataAccess.Execute(sqlStatement);
          ```
-          
+         
 
     2. **Transaction**
 
