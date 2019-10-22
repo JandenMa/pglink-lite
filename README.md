@@ -23,7 +23,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   - Added `Execute` function in `dataAccess` to run a single query
   - Bug fixes
   - Optimized something
-- **Build200191022 :** Update README.
+- **Build20191022 :** Update README.
 
 ---
 
@@ -437,66 +437,66 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Returns
 
-       reponse from database
+         reponse from database
 
-  3. **GenerateInsertSQL**
+    3. **GenerateInsertSQL**
 
-     - Introduction
+       - Introduction
 
-       generate insert sql object
+         generate insert sql object
 
-     - Parameters
+       - Parameters
 
-     ```javascript
+         ```javascript
          params: object, //data from resolver, includes inserted fields and values
        tableName: string //name of inserted table
-     ```
+         ```
 
-     - Returns
+       - Returns
 
-       ```javascript
+         ```javascript
        {
            sql: string
            replacement: Array<any>
            tableName: string
-        }
-       ```
+       }
+         ```
 
-  4. **GenerateMultiInsertSQL**
+    4. **GenerateMultiInsertSQL**
 
-     - Introduction
+       - Introduction
 
-       generate bulk insert sql object
+         generate bulk insert sql object
 
-     - Parameters
+       - Parameters
 
-       ```js
+         ```js
        insertFields: Array<string>,
          params: object, //data from resolver, includes inserted fields and values
        tableName: string //name of inserted table
-       ```
+         ```
 
-     - Returns
+       - Returns
 
-       ```javascript
+         ```javascript
        {
            sql: string
            replacement: Array<any>
            tableName: string
-        }
-       ```
+       }
+         ```
 
-  5. **GenerateUpdateSQL**
+    5. **GenerateUpdateSQL**
 
-     - Introduction
+       - Introduction
 
-       generate update sql object
+         generate update sql object
 
-     - Parameters
+       - Parameters
 
-     ```javascript
+         ```javascript
         {
-         /** an object includes the fields and values you want to update */
+         	/** an object includes the fields and values you want to update */
            params: object
            /** the name of table */
            tableName: string
@@ -504,172 +504,167 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            whereClause?: string
            /** the name of primary key, default 'id' */
            pkName?: string
-         /** those fields need to set time automatically, default value is from globalAutoSetTimeFields. We will check whether fields included in the table, if not, skip */
+           /** those fields need to set time automatically, default value is from globalAutoSetTimeFields. We will check whether fields included in the table, if not, skip */
            autoSetTimeFields?: Array<string>
-      }
-     ```
+        }
+         ```
 
-     - Returns
+       - Returns
 
-       ```javascript
+         ```javascript
        {
            sql: string
            replacement: Array<any>
            tableName: string
-        }
-       ```
+       }
+         ```
 
-     ```
+    6. **InsertExecutor**
 
-     ```
+       - Introduction
 
-  6. **InsertExecutor**
+         execute insert sql
 
-     - Introduction
+       - Parameters
 
-       execute insert sql
+         ```js
+       params: object, //data from resolver, includes inserted fields and values
+       tableName: string //name of inserted table
+         ```
+    
+       - Returns
+    
+         response from database
 
-     - Parameters
+    7. **MultiInsertToOneTableExecutor**
 
-       ```js
-          params: object, //data from resolver, includes inserted fields and values
-        tableName: string //name of inserted table
-       ```
+       - Introduction
 
+         execute insert sqls to one table
+
+       - Parameters
+  
+         ```js
+       insertFields: Array<string>,
+         params: object, //data from resolver, includes inserted fields and values
+       tableName: string //name of inserted table
+         ```
+  
        - Returns
 
          response from database
 
-  7. **MultiInsertToOneTableExecutor**
+    8. **MultiInsertExecutor**
 
-     - Introduction
+       - Introduction
 
-       execute insert sqls to one table
+         execute insert sqls to deferent tables
 
-     - Parameters
+       - Parameters
+  
+         ```javascript
+        Array<
+        {
+           params: object, //data from resolver, includes inserted fields and values
+           tableName: string //name of inserted table
+        }>
+         ```
+  
+       - Returns
 
-       ```js
-        insertFields: Array<string>,
-          params: object, //data from resolver, includes inserted fields and values
-        tableName: string //name of inserted table
-       ```
+         response from database
 
-     - Returns
+    9. **UpdateByPkExecutor**
 
-       response from database
+       - Introduction
 
-  8. **MultiInsertExecutor**
+         execute update sql by primary key
 
-  - Introduction
+       - Parameters
+  
+         ```javascript
+       params: object, //data from resolver, includes updated fields and values
+       tableName: string, //name of inserted table
+       pkName?: string, //the name of primary key
+       autoSetTimeFields?: Array<string> //those fields need to set time automatically
+         ```
+  
+       - Returns
 
-    execute insert sqls to deferent tables
+         response from database
 
-  - Parameters
+    10. **UpdateExecutor**
 
-    ```javascript
-       Array<
-     {
-          params: object, //data from resolver, includes inserted fields and values
-        tableName: string //name of inserted table
-       }
-     >
-    ```
+       - Introduction
 
-    - Returns
+         execute update sql by conditions
 
-      response from database
-
-  9. **UpdateByPkExecutor**
-
-     - Introduction
-
-       execute update sql by primary key
-
-     - Parameters
-
-       ```javascript
-        params: object, //data from resolver, includes updated fields and values
-        tableName: string, //name of inserted table
-        pkName?: string, //the name of primary key
-        autoSetTimeFields?: Array<string> //those fields need to set time automatically
-       ```
-
-     - Returns
-
-       response from database
-
-  10. **UpdateExecutor**
-
-  - Introduction
-
-  execute update sql by conditions
-
-  - Parameters
-
-    ```javascript
-      params: object, //data from resolver, includes updated fields and values
+       - Parameters
+  
+         ```javascript
+    params: object, //data from resolver, includes updated fields and values
     tableName: string, //name of inserted table
-      whereClause?: string, //e.g. "employeeId" = '123'
-      autoSetTimeFields?: Array<string> //those fields need to set time automatically
-    ```
+    whereClause?: string, //e.g. "employeeId" = '123'
+       autoSetTimeFields?: Array<string> //those fields need to set time automatically
+         ```
+  
+       - Returns
 
-    - Returns
+         response from database
 
-      response from database
+    11. **MultiUpdateExecutor**
 
-  11. **MultiUpdateExecutor**
+       - Introduction
 
-      - Introduction
+         execute bulk update sqls by conditions
 
-        execute bulk update sqls by conditions
-
-      - Parameters
-
-        ```javascript
+       - Parameters
+  
+         ```javascript
         Array<
           {
-          	params: object, //data from resolver, includes updated fields and values
-        		tableName: string, //name of inserted table
-        		whereClause?: string //e.g. "employeeId" = '123'
-        		pkName: string, //the name of primary key
+       	 	params: object, //data from resolver, includes updated fields and values
+       	 		tableName: string, //name of inserted table
+       	 		whereClause?: string //e.g. "employeeId" = '123'
+       	 		pkName: string, //the name of primary key
             autoSetTimeFields?: Array<string> //those fields need to set time automatically
-        }
-        >
-        ```
+          }>
+         ```
+  
+       - Returns
 
-      - Returns
+         response from database
 
-        response from database
+    12. **DeleteExecutor**
 
-  12. **DeleteExecutor**
+       - Introduction
 
-      - Introduction
+         execute delete sql by conditions
 
-        execute delete sql by conditions
+       - Parameters
+  
+         ```javascript
+       tableName: string, //name of inserted table
+       whereClause?: string //e.g. "employeeId" = '123'
+         ```
+         
+       - Returns
+       
+         response from database
+    
 
-      - Parameters
-
-        ```javascript
-        tableName: string, //name of inserted table
-        whereClause?: string //e.g. "employeeId" = '123'
-        ```
-
-      - Returns
-
-        response from database
-
-  13. **SingleQueryExecutor**
-
-      - Introduction
-
-        execute query sql
-
-      - Parameters
-
-        ```javascript
-         {
+    13. **SingleQueryExecutor**
+  
+       - Introduction
+  
+         execute query sql
+  
+       - Parameters
+  
+         ```javascript
+       {
              /** the name of table */
-             tableName: string
+           	tableName: string
              /** e.g. "employeeId" = '123' */
              whereClause: string
              /** the fields what you want to select, default * */
@@ -681,8 +676,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              /** how many rows you want to skip */
            	offset?: number
           }
-        ```
-
-      - Returns
-
-        response from database
+         ```
+  
+       - Returns
+  
+         response from database
