@@ -406,6 +406,13 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Returns
 
          reponse from database
+       
+       - Example:
+         ```javascript
+         const sqlStatement = `SQL STATEMENT GOES HERE`
+         const res = await this.dataAccess.Execute(sqlStatement);
+         ```
+          
 
     2. **Transaction**
 
