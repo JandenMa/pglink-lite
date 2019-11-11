@@ -63,14 +63,33 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   ```
 
 - Model (_models/users.js_)
+  - #####Notes on Authorization:
+  - Permission objects take three properties:
+    - authFields: An array of either strings or objects. Strings should be the name of the column to be compared with the user's authorization information. For instance 'companyId' or 'employeeId'. An object is used to match a column name in the record to a different property in the permissions. For example, to match the 'id' field of an employee to the 'employeeId' field in the user authorization data, pass { employeeId: 'id' }
+    - scope: The granularity of permissions required to perform an operation on this model. For instance, a read operation on an employee garnishment should be scope 'EMPLOYEE', but a write operation on the same should be scope 'COMPANY', since the employee should be able to see their own garnishments, but only someone with write permissions to the company's data should be allowed to create a new garnishment.
+    - operation: 'READ' or 'WRITE' - self explanatory
+  - To indicate that an operation should not require authorization, pass { auth: false } as the permission parameter to the BaseModel method
+  - When the input data for a read or update operation does not or does not always include the companyId, use updateBy or findBy and pass companyId: this.companyId to the conditions object.
+
+  - ####Notes on the BaseModel
+    - The purpose of the base model is to add a layer of abstraction between pgLink and child models, allowing operations like adding the companyId to create data by default, and authorizing all operations.
+    - To avoid confusion and potential bugs, pgLink operations should only be called by the BaseModel, and BaseModel operations should be called by child models using super. Resolvers and other classes should not call pgLink methods nor BaseModel methods directly.
+    - BaseModel methods return the most common type for that operation. i.e. findBy will always return an array, however some methods in child models use findBy but must return a single record. Parsing should happen in the child model so that the BaseModel remains sufficiently generalized.
+    - If you want to add middleware functionality, such as adding companyId to create data, be sure to include a way to turn the operation off for classes that don't need it. For example, including noAuthor: true or noCompanyId: true in the config object for a child model will disable adding createdBy/updatedBy or companyId to data automatically respectively.
+    - Conditions in xBy methods are flexible. See the below examples:
+      - { id: 3 } -- "id" = 3
+      - { id: [1, 2, 3] } -- "id" IN ( 1, 2, 3 )
+      - { createdAt: { operator: '>', value: `DATE(${startDate})` } } -- "createdAt" > DATE('01/01/2019')
+
+
 
   ```javascript
   // models/users.js
-  const pglink = require('../core/pglink')
+  import { BaseModel } from './BaseModel'
 
-  class UserModel extends pglink.Model {
+  class UserModel extends BaseModel {
     constructor() {
-      super({ tableName: 'users', pkName: 'userId' })
+      super({ tableName: 'users', pkName: 'userId', defaultPermission: {authFields: ['employeeId', 'companyId'], scope: 'COMPANY'} })
     }
   }
 

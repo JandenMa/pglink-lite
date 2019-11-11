@@ -1,6 +1,6 @@
-import { Pool } from 'pg'
-import { DataAccess } from '../core/dataAccess'
-import { Interface } from 'readline'
+import { Pool } from 'pg';
+import { DataAccess } from '../core/dataAccess';
+import { Interface } from 'readline';
 
 /**
  * @interface
@@ -18,23 +18,24 @@ export class ModelBase {
    */
   constructor(props: {
     /** the name of table */
-    tableName: string
+    tableName: string;
     /** the name of primary key, default 'id' */
-    pkName?: string
+    pkName?: string;
     /** to defined the key and value, key should be included in the fields, e.g. {role: {ADMIN: 0, USER: 1}} */
-    enumMapping?: object
+    enumMapping?: object;
     /** used to define fields that should be automatically updated with a current timestamp default from globalAutoSetTimeFields */
-    autoSetTimeFields?: Array<string>
-  })
+    autoSetTimeFields?: Array<string>;
+  });
 
   /** db operator */
-  protected dataAccess: DataAccess
+  protected dataAccess: DataAccess;
 
   /**
    * @method
+   * @param {function} callback Function to be run before comitting the database operation
    * @description query without conditions for one table
    */
-  protected findAll(): object
+  protected findAll(callback?: any): object;
 
   /**
    * @method
@@ -42,32 +43,38 @@ export class ModelBase {
    * @param pk primary key value
    * @param selectFields default "*"
    */
-  protected findByPK(pk: string | number, selectFields?: string): object
+  protected findByPK(
+    pk: string | number,
+    selectFields?: string,
+    callback?: any
+  ): object;
 
   /**
    * @method
    * @description query with conditions for one table
    * @param whereClause e.g. "employeeId" = '123'
    * @param selectFields default "*"
+   * @param {function} callback Function to be run before comitting the database operation
    */
   protected findByConditions(
     whereClause: string,
-    selectFields?: string
-  ): Array<any>
+    selectFields?: string,
+    callback?: any
+  ): Array<any>;
 
   /**
    * @method
    * @description insert one row
    * @param {Object} params an object includes the fields and values
    */
-  protected insertOne(params: object): object
+  protected insertOne(params: object, callback?: any): object;
 
   /**
    * @method
    * @description multiple insert
    * @param {Array<object>} items the array of data to be inserted into table
    */
-  protected multiInsert(items: Array<object>): Array<any>
+  protected multiInsert(items: Array<object>, callback?: any): Array<any>;
 
   /**
    * @method
@@ -77,8 +84,9 @@ export class ModelBase {
    */
   protected updateByPk(
     params: object,
-    autoSetTimeFields?: Array<string>
-  ): object
+    autoSetTimeFields?: Array<string>,
+    callback?: any
+  ): object;
 
   /**
    * @method
@@ -90,8 +98,9 @@ export class ModelBase {
   protected updateByConditions(
     params: object,
     whereClause: string,
-    autoSetTimeFields?: Array<string>
-  ): object
+    autoSetTimeFields?: Array<string>,
+    callback?: any
+  ): object;
 
   /**
    * @method
@@ -105,29 +114,30 @@ export class ModelBase {
     items: Array<object>,
     whereClause?: string,
     replacementFields?: Array<string>,
-    autoSetTimeFields?: Array<string>
-  ): Array<any>
+    autoSetTimeFields?: Array<string>,
+    callback?: any
+  ): Array<any>;
 
   /**
    * @method
    * @description delete by where conditions
    * @param {string} whereClause e.g. "employeeId" = '123'
    */
-  protected deleteByConditions(whereClause: string): object
+  protected deleteByConditions(whereClause: string, callback?: any): object;
 
   /**
    * @method
    * @description to encode value from enum to integer
    * @param {Array|Object} args the input request
    */
-  protected encodeFromEnum(args: Array<any> | object): Array<any> | object
+  protected encodeFromEnum(args: Array<any> | object): Array<any> | object;
 
   /**
    * @method
    * @description to decaode value from integer to enum
    * @param {Array|Object} args the output response
    */
-  protected decodeToEnum(args: Array<any> | object): Array<any> | object
+  protected decodeToEnum(args: Array<any> | object): Array<any> | object;
 }
 
 /**
@@ -137,4 +147,4 @@ export class ModelBase {
 export function ModelImpl(
   connection: Pool,
   globalAutoSetTimeFields: Array<string>
-): typeof ModelBase
+): typeof ModelBase;
