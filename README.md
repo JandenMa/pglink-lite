@@ -66,11 +66,11 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
   ```javascript
   // models/users.js
-  import { BaseModel } from './BaseModel'
+  const pglink = require('../core/pglink')
 
-  class UserModel extends BaseModel {
+  class UserModel extends pglink.Model {
     constructor() {
-      super({ tableName: 'users', pkName: 'userId', defaultPermission: {authFields: ['employeeId', 'companyId'], scope: 'COMPANY'} })
+      super({ tableName: 'users', pkName: 'userId'})
     }
   }
 
