@@ -23,6 +23,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   - Added `Execute` function in `dataAccess` to run a single query
   - Bug fixes
   - Optimized something
+  - **BUILD20191111 :** 
+    - Standardized and simplified return data types 
+    - Added the ability to add a callback to methods in pglink.Model
 
 ---
 
@@ -229,7 +232,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-         null
+         `callback`: Function
 
        - Returns
 
@@ -246,6 +249,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          `pkValue`: string | number
 
          `selectFields`: string, default \*
+         
+         `callback`: Function \*
 
        - Returns
 
@@ -263,6 +268,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
          `selectFields`: string, default \*
 
+         `callback`: Function \*
+
        - Returns
 
          (Promise) Some rows data or error
@@ -277,6 +284,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
          `params`: object. (data from resolver)
 
+         `callback`: Function \*
+
        - Returns
 
          (Promise) Inserted row data or errors
@@ -290,6 +299,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          `items`: Array\<object\>. (data from resolver)
+
+         `callback`: Function \*
 
        - Returns
 
@@ -306,6 +317,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          `params`: object. (data from resolver, have to include pkName and pkValue)
 
          `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
+
+         `callback`: Function \*
 
        - Returns
 
@@ -324,6 +337,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          `whereClause`: string. (e.g. ' name = "Tim" ')
 
          `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
+
+         `callback`: Function \*
 
        - Returns
 
@@ -345,6 +360,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
          `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
 
+         `callback`: Function \*
+
        - Returns
 
          (Promise) Updated rows data or errors
@@ -358,6 +375,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Parameters
 
           `whereClause`: string. (e.g. ' "companyId" = 1001 ')
+
+          `callback`: Function \*
 
         - Returns
 
@@ -423,6 +442,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              alias?: string // to distinguish responses
              }>
            returnWithAlias?: boolean // if true, return res with alias
+           flatten?: boolean // if true, return an object instead of an array when the transaction yields only one result
           },
          transaction: Function // callback function or Transaction
          ```
@@ -431,7 +451,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        reponse from database
 
-  3. **GenerateInsertSQL**
+  1. **GenerateInsertSQL**
 
      - Introduction
 
@@ -454,7 +474,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         }
        ```
 
-  4. **GenerateMultiInsertSQL**
+  2. **GenerateMultiInsertSQL**
 
      - Introduction
 
@@ -478,7 +498,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         }
        ```
 
-  5. **GenerateUpdateSQL**
+  3. **GenerateUpdateSQL**
 
      - Introduction
 
@@ -515,7 +535,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
      ```
 
-  6. **InsertExecutor**
+  4. **InsertExecutor**
 
      - Introduction
 
@@ -525,14 +545,15 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        ```js
           params: object, //data from resolver, includes inserted fields and values
-        tableName: string //name of inserted table
+          tableName: string, //name of inserted table
+          callback?: Function //The function to be run before committing the transaction
        ```
 
        - Returns
 
          response from database
 
-  7. **MultiInsertToOneTableExecutor**
+  5. **MultiInsertToOneTableExecutor**
 
      - Introduction
 
@@ -543,14 +564,15 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        ```js
         insertFields: Array<string>,
           params: object, //data from resolver, includes inserted fields and values
-        tableName: string //name of inserted table
+        tableName: string, //name of inserted table
+        callback?: Function //The function to be run before committing the transaction
        ```
 
      - Returns
 
        response from database
 
-  8. **MultiInsertExecutor**
+  6. **MultiInsertExecutor**
 
   - Introduction
 
@@ -562,7 +584,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        Array<
      {
           params: object, //data from resolver, includes inserted fields and values
-        tableName: string //name of inserted table
+        tableName: string //name of inserted table,
+        callback?: Function //The function to be run before committing the transaction
        }
      >
     ```
@@ -583,7 +606,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         params: object, //data from resolver, includes updated fields and values
         tableName: string, //name of inserted table
         pkName?: string, //the name of primary key
-        autoSetTimeFields?: Array<string> //those fields need to set time automatically
+        autoSetTimeFields?: Array<string> //those fields need to set time automatically,
+        callback?: Function //The function to be run before committing the transaction
        ```
 
      - Returns
@@ -602,7 +626,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
       params: object, //data from resolver, includes updated fields and values
     tableName: string, //name of inserted table
       whereClause?: string, //e.g. "employeeId" = '123'
-      autoSetTimeFields?: Array<string> //those fields need to set time automatically
+      autoSetTimeFields?: Array<string> //those fields need to set time automatically,
+      callback?: Function //The function to be run before committing the transaction
     ```
 
     - Returns
@@ -624,7 +649,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         		tableName: string, //name of inserted table
         		whereClause?: string //e.g. "employeeId" = '123'
         		pkName: string, //the name of primary key
-            autoSetTimeFields?: Array<string> //those fields need to set time automatically
+            autoSetTimeFields?: Array<string> //those fields need to set time automatically,
+            callback?: Function //The function to be run before committing the transaction
         }
         >
         ```
@@ -643,7 +669,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
         ```javascript
         tableName: string, //name of inserted table
-        whereClause?: string //e.g. "employeeId" = '123'
+        whereClause?: string //e.g. "employeeId" = '123',
+        callback?: Function //The function to be run before committing the transaction
         ```
 
       - Returns
@@ -671,7 +698,11 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              /** to limit the count of rows you want to query */
              limit?: number
              /** how many rows you want to skip */
-           	offset?: number
+             offset?: number,
+             /** The function to be run before committing the transaction */
+             callback?: Function ,
+            /** Whether or not to fully flatten the returned array*/
+            flatten?: boolean
           }
         ```
 
