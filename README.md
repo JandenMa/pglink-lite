@@ -24,6 +24,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   - Bug fixes
   - Optimized something
 - **Build20191022 :** Update README.
+- **Build20191111 :** Vast changes.
 
 ---
 
@@ -647,9 +648,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            tableName: string, //name of inserted table
            whereClause?: string //e.g. "employeeId" = '123'
            ```
-         
+        
         - Returns
-       
+         
           response from database
     
 
