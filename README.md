@@ -71,7 +71,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
   class UserModel extends pglink.Model {
     constructor() {
-      super({ tableName: 'users', pkName: 'userId' })
+      super({ tableName: 'users', pkName: 'userId'})
     }
   }
 
