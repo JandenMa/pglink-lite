@@ -25,6 +25,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   - Optimized something
 - **Build20191022 :** Update README.
 - **Build20191111 :** Vast changes.
+- **Build20191112 :** 
+  - Added the ability to force flatten results
+  - Added the ability to return a single record
 
 ---
 
