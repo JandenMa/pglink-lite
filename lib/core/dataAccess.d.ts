@@ -40,7 +40,7 @@ export class DataAccess {
 	/**
 	 * Transaction
 	 * @description Commit many sqls in one transaction, and will rollback all if exist one sql execute failed.
-	 * @param {{params: Array<{sql: string,replacements?: Array<any>,alias?: string}>,returnWithAlias?: boolean, flatten?: boolean}} args includes sqls, their params and alias name.
+	 * @param {{params: Array<{sql: string,replacements?: Array<any>,alias?: string}>,returnWithAlias?: boolean, returnSingleRecord?: boolean, forceFlat?: boolean}} args includes sqls, their params and alias name.
 	 * @param {Function} transaction you can use nested transaction here, you will receive the response from outer transaction, and if inner transaction rollback, others would be rollback
 	 * @author Janden Ma
 	 */
@@ -52,7 +52,8 @@ export class DataAccess {
 				alias?: string
 			}>
 			returnWithAlias?: boolean
-			flatten?: boolean
+			returnSingleRecord?: boolean
+			forceFlat?: boolean
 		},
 		transaction: Function
 	): any
@@ -145,11 +146,13 @@ export class DataAccess {
 	/**
 	 * @description An execute inserting helper function
 	 * @param {Array<{params: object, tableName: string}>} items
+	 * @param {boolean} forceFlat if true, force all results into a single array
 	 * @param {function} callback function to be run before committing the database transaction
 	 * @returns {Array} the responses from postgres
 	 */
 	public MultiInsertExecutor(
 		items: Array<{ params: object; tableName: string }>,
+		forceFlat?: boolean,
 		callback?: Function
 	): Array<object>
 
@@ -190,6 +193,7 @@ export class DataAccess {
 	/**
 	 * @description An execute updating helper function, custom conditions
 	 * @param {Array<{params: object, tableName: string, whereClause: string, pkName: string, autoSetTimeFields: Array<string>}>} items
+	 * @forceFlat {boolean} if true, force all results into a single array
 	 * @param {function} callback function to be run before committing the database transaction
 	 * @returns {Array<object>} the response from postgres
 	 */
@@ -201,6 +205,7 @@ export class DataAccess {
 			pkName: string
 			autoSetTimeFields?: Array<string>
 		}>,
+		forceFlat?: boolean,
 		callback?: Function
 	): Array<object>
 
@@ -223,12 +228,14 @@ export class DataAccess {
 	 * @description An execute deleting helper function
 	 * @param {string} tableName the name of table
 	 * @param {string} whereClause e.g. "employeeId" = '123'
+	 * @param {boolean} returnSingleRecord if true, only return one record
 	 * @param {function} callback function to be run before committing the database transaction
 	 * @returns {object} the response from postgres
 	 */
 	public DeleteExecutor(
 		tableName: string,
 		whereClause: string,
+		returnSingleRecord?: boolean,
 		callback?: Function
 	): object
 
@@ -252,7 +259,7 @@ export class DataAccess {
 		offset?: number
 		/**  function to run before committing */
 		callback?: any
-		/** whether or not to return an object if the result is a single record */
-		flatten?: boolean
+		/** whether or not to return a single record*/
+		returnSingleRecord?: boolean
 	}): object
 }

@@ -25,6 +25,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   - Optimized something
 - **Build20191022 :** Update README.
 - **Build20191111 :** Vast changes.
+- **Build20191112 :** 
+  - Added the ability to force flatten results
+  - Added the ability to return a single record
 
 ---
 
@@ -231,7 +234,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-         null
+         `callback`: function
 
        - Returns
 
@@ -249,6 +252,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
          `selectFields`: string, default \*
 
+         `callback`: function
+
        - Returns
 
          (Promise) One row data or error
@@ -265,6 +270,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
          `selectFields`: string, default \*
 
+         `callback`: function
+
        - Returns
 
          (Promise) Some rows data or error
@@ -279,6 +286,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
          `params`: object. (data from resolver)
 
+         `callback`: function
+
        - Returns
 
          (Promise) Inserted row data or errors
@@ -292,6 +301,10 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          `items`: Array\<object\>. (data from resolver)
+
+         `forceFlat`?: boolean (whether or not to force results into a single array)
+
+         `callback`: function
 
        - Returns
 
@@ -308,6 +321,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          `params`: object. (data from resolver, have to include pkName and pkValue)
 
          `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
+
+         `callback`: function
 
        - Returns
 
@@ -326,6 +341,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          `whereClause`: string. (e.g. ' name = "Tim" ')
 
          `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
+
+         `callback`: function
 
        - Returns
 
@@ -347,6 +364,10 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
          `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
 
+         `forceFlat`?: boolean (if true, forces results into a single array)
+
+         `callback`: function
+
        - Returns
 
          (Promise) Updated rows data or errors
@@ -360,6 +381,10 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Parameters
 
           `whereClause`: string. (e.g. ' "companyId" = 1001 ')
+
+          `returnSingleRecord?`: boolean (if true, returns just one record)
+
+          `callback`: function
 
         - Returns
 
@@ -431,7 +456,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
                replacements?: Array<any>
              alias?: string // to distinguish responses
              }>
-           returnWithAlias?: boolean // if true, return res with alias
+           returnWithAlias?: boolean, // if true, return res with alias
+           returnSingleRecord?: boolean,
+           forceFlat?: boolean
           },
          transaction: Function // callback function or Transaction
          ```
@@ -530,7 +557,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
          ```js
          params: object, //data from resolver, includes inserted fields and values
-         tableName: string //name of inserted table
+         tableName: string, //name of inserted table
+         callback?: function //function to run before committing the transaction
          ```
     
        - Returns
@@ -548,7 +576,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          ```js
          insertFields: Array<string>,
          params: object, //data from resolver, includes inserted fields and values
-         tableName: string //name of inserted table
+         tableName: string, //name of inserted table
+         callback?: function //function to run before committing the transaction
          ```
   
        - Returns
@@ -568,7 +597,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          {
            params: object, //data from resolver, includes inserted fields and values
            tableName: string //name of inserted table
-         }>
+         }>,
+         forceFlat?: boolean, //if true, forces results into one array
+         callback?: function //function to run before committing the transaction
          ```
   
        - Returns
@@ -587,7 +618,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          params: object, //data from resolver, includes updated fields and values
          tableName: string, //name of inserted table
          pkName?: string, //the name of primary key
-         autoSetTimeFields?: Array<string> //those fields need to set time automatically
+         autoSetTimeFields?: Array<string> ,//those fields need to set time automatically
+         callback?: function //function to run before committing the transaction
          ```
   
        - Returns
@@ -606,7 +638,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           params: object, //data from resolver, includes updated fields and values
           tableName: string, //name of inserted table
           whereClause?: string, //e.g. "employeeId" = '123'
-          autoSetTimeFields?: Array<string> //those fields need to set time automatically
+          autoSetTimeFields?: Array<string>, //those fields need to set time automatically
+          callback?: function //function to run before committing the transaction
           ```
   
         - Returns
@@ -629,7 +662,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
               whereClause?: string //e.g. "employeeId" = '123'
               pkName: string, //the name of primary key
               autoSetTimeFields?: Array<string> //those fields need to set time automatically
-            }>
+            }>,
+            forceFlat?: boolean, //if true, forces results into a single array
+            callback?: function //function to run before committing the transaction
           ```
   
         - Returns
@@ -646,7 +681,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
            ```javascript
            tableName: string, //name of inserted table
-           whereClause?: string //e.g. "employeeId" = '123'
+           whereClause?: string, //e.g. "employeeId" = '123'
+           returnSingleRecord?: boolean,//if true, returns one record instead of array
+           callback?: function //function to run before committing the transaction
            ```
         
         - Returns
@@ -675,7 +712,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              /** to limit the count of rows you want to query */
              limit?: number
              /** how many rows you want to skip */
-           	offset?: number
+             offset?: number,
+            /** if true, return a single record instead of an array */
+             returnSingleRecord?: boolean
           }
           ```
   

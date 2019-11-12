@@ -72,9 +72,14 @@ export class ModelBase {
 	/**
 	 * @method
 	 * @description multiple insert
-	 * @param {Array<object>} items the array of data to be inserted into table
+	 * @param {Array<object>} items the array of data to be inserted into
+	 * @param {boolean} forceFlat if true, force all results into one array
 	 */
-	protected multiInsert(items: Array<object>, callback?: Function): Array<any>
+	protected multiInsert(
+		items: Array<object>,
+		forceFlat?: boolean,
+		callback?: Function
+	): Array<any>
 
 	/**
 	 * @method
@@ -109,12 +114,15 @@ export class ModelBase {
 	 * @param {string} whereClause e.g. "companyId = $1"
 	 * @param {Array<string>} replacementFields e.g ['companyId']
 	 * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in items, e.g ['updatedAt']
+	 * @param {boolean} forceFlat if true, force all results into one array
+	 * @param {function} callback function to be run before comitting the transaction
 	 */
 	protected multiUpdateWithConditions(
 		items: Array<object>,
 		whereClause?: string,
 		replacementFields?: Array<string>,
 		autoSetTimeFields?: Array<string>,
+		forceFlat?: boolean,
 		callback?: Function
 	): Array<any>
 
@@ -122,8 +130,13 @@ export class ModelBase {
 	 * @method
 	 * @description delete by where conditions
 	 * @param {string} whereClause e.g. "employeeId" = '123'
+	 * @param {boolean} returnSingleRecord if true, only return one record
 	 */
-	protected deleteByConditions(whereClause: string, callback?: Function): object
+	protected deleteByConditions(
+		whereClause: string,
+		returnSingleRecord?: boolean,
+		callback?: Function
+	): object
 
 	/**
 	 * @method
