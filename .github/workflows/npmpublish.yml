@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: yarb ci
+      - run: yarn ci
       - run: yarn test
 
   publish-npm:
