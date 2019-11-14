@@ -1,6 +1,6 @@
 {
   "name": "pglink-lite",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A lite library for Postgresql to use ORM on NodeJS with GraphQL",
   "main": "index.js",
   "author": {

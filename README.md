@@ -28,6 +28,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20191112 :** 
   - Added the ability to force flatten results
   - Added the ability to return a single record
+- **Build20191114 :** Correct `pg` package dependency.
 
 ---
 
@@ -687,7 +688,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            ```
         
         - Returns
-         
+        
           response from database
     
 
