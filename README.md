@@ -26,9 +26,12 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20191022 :** Update README.
 - **Build20191111 :** Vast changes.
 - **Build20191112 :** 
-  - Added the ability to force flatten results
-  - Added the ability to return a single record
+  - Added the ability to force flatten results.
+  - Added the ability to return a single record.
 - **Build20191114 :** Correct `pg` package dependency.
+- **Build20191120 :** 
+  - Added `connectionTimeoutMillis` and `idleTimeoutMillis` parameters.
+  - Added `DataAccess.Disconnect()` function (beta).
 
 ---
 
@@ -55,16 +58,18 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   ```javascript
   // core/pgsqlize.js
   const { PgLink } = require('pglink-lite')
-
+  
   const pglink = new PgLink({
     host: 'http://192.168.1.100',
     port: 5432,
     userName: 'root',
     password: '123456',
     database: 'test',
+    connectionTimeoutMillis: 0,
+    idleTimeoutMillis: 60000,
     globalAutoSetTimeFields: ['updatedAt']
   })
-
+  
   module.exports.default = pglink
   ```
 
@@ -180,14 +185,16 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
   - Props: `object`
 
-    | Key                     | Type            | Introduction                                                                   | Default value |
-    | ----------------------- | --------------- | ------------------------------------------------------------------------------ | ------------- |
-    | host                    | `string`        | Postgresql server host                                                         | "localhost"   |
-    | port                    | `number`        | Postgresql server port                                                         | 5432          |
-    | userName                | `string`        | Postgresql server user name                                                    | "postgres"    |
-    | password                | `string`        | Postgresql server password                                                     | ""_(empty)_   |
-    | database                | `string`        | Postgresql database name                                                       | "postgres"    |
-    | connectionMax           | `number`        | Postgresql database max connection                                             | 10            |
+    | Key                     | Type            | Introduction                                                 | Default value |
+    | ----------------------- | --------------- | ------------------------------------------------------------ | ------------- |
+    | host                    | `string`        | Postgresql server host                                       | "localhost"   |
+    | port                    | `number`        | Postgresql server port                                       | 5432          |
+    | userName                | `string`        | Postgresql server user name                                  | "postgres"    |
+    | password                | `string`        | Postgresql server password                                   | ""_(empty)_   |
+    | database                | `string`        | Postgresql database name                                     | "postgres"    |
+    | connectionMax           | `number`        | Postgresql database max connection                           | 10            |
+    | connectionTimeoutMillis | `number`        | Number of milliseconds to wait before timing out when connecting a new client, by default this is 0 which means no timeout | 0             |
+    | idleTimeoutMillis       | `number`        | Number of milliseconds a client must sit idle in the pool and not be checked out, before it is disconnected from the backend and discarded, default is 10000 (10 seconds) - set to 0 to disable auto-disconnection of idle clients | 10000         |
     | globalAutoSetTimeFields | `Array<string>` | To define fields that should be automatically updated with a current timestamp | []            |
 
 - **Inherit and declare model**
@@ -722,3 +729,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Returns
   
           response from database
+        
+    14. **Disconnect** [Beta Function]
+    
+        - Introduction
+    
+          It will drain the pool of all active clients, disconnect them, and shut down any internal timers in the pool. It is common to call this at the end of a script using the pool or when your process is attempting to shut down cleanly.
