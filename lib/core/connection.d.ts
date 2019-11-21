@@ -31,6 +31,19 @@ type ConnectionArgsType = {
    * @type {number}
    */
   connectionMax?: number
+  /**
+   * @description Number of milliseconds to wait before timing
+   * out when connecting a new client, by default this is 0 which means no timeout
+   * @type {number}
+   */
+  connectionTimeoutMillis?: number
+  /**
+   * @description Number of milliseconds a client must sit idle in the pool
+   * and not be checked out, before it is disconnected from the backend and discarded,
+   * default is 10000 (10 seconds) - set to 0 to disable auto-disconnection of idle clients
+   * @type {number}
+   */
+  idleTimeoutMillis?: number
 }
 
 /**
