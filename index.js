@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { Connection } = require('./lib/core/connection');
-const { ModelImpl } = require('./lib/model');
-const { DataType } = require('./lib/dataType');
+const { Connection } = require('./lib/core/connection')
+const { ModelImpl } = require('./lib/model')
+const { DataType } = require('./lib/dataType')
 
 class PgLink {
   /**
@@ -19,7 +19,7 @@ class PgLink {
       connectionTimeoutMillis,
       idleTimeoutMillis,
       globalAutoSetTimeFields = [] // v0.1.8 for whole app to use
-    } = args;
+    } = args
     const connection = Connection({
       host,
       port,
@@ -36,12 +36,12 @@ class PgLink {
       // before it is disconnected from the backend and discarded
       // default is 10000 (10 seconds) - set to 0 to disable auto-disconnection of idle clients
       idleTimeoutMillis
-    });
-    this.Model = ModelImpl(connection, globalAutoSetTimeFields);
-    this.DataTypes = DataType;
+    })
+    this.Model = ModelImpl(connection, globalAutoSetTimeFields)
+    this.DataTypes = DataType
   }
 }
 
-module.exports = { PgLink };
-module.exports.PgLink = PgLink;
-module.exports.default = PgLink;
+module.exports = { PgLink }
+module.exports.PgLink = PgLink
+module.exports.default = PgLink
