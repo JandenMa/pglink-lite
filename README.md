@@ -447,9 +447,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        
        - Example:
          ```javascript
-         const sqlStatement = `SQL STATEMENT GOES HERE`
-         const res = await this.dataAccess.Execute(sqlStatement);
-       ```
+           const sqlStatement = `SQL STATEMENT GOES HERE`
+           const res = await this.dataAccess.Execute(sqlStatement);
+         ```
          
 
     2. **Transaction**
@@ -461,7 +461,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters:
   
          ```javascript
-         args: {
+          args: {
              params: Array<{
              sql: string
                replacements?: Array<any>
@@ -471,7 +471,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            returnSingleRecord?: boolean,
            forceFlat?: boolean
           },
-       transaction: Function // callback function or Transaction
+          transaction: Function // callback function or Transaction
          ```
 
        - Returns
@@ -488,7 +488,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   
          ```javascript
          params: object, //data from resolver, includes inserted fields and values
-       tableName: string //name of inserted table
+         tableName: string //name of inserted table
          ```
 
        - Returns
@@ -498,7 +498,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            sql: string
            replacement: Array<any>
            tableName: string
-       }
+         }
          ```
 
     4. **GenerateMultiInsertSQL**
@@ -512,7 +512,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          ```js
          insertFields: Array<string>,
          params: object, //data from resolver, includes inserted fields and values
-       tableName: string //name of inserted table
+         tableName: string //name of inserted table
          ```
 
        - Returns
@@ -522,7 +522,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            sql: string
            replacement: Array<any>
            tableName: string
-       }
+         }
          ```
 
     5. **GenerateUpdateSQL**
@@ -545,7 +545,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            pkName?: string
            /** those fields need to set time automatically, default value is from globalAutoSetTimeFields. We will check whether fields included in the table, if not, skip */
            autoSetTimeFields?: Array<string>
-       }
+         }
          ```
 
        - Returns
@@ -555,7 +555,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            sql: string
            replacement: Array<any>
            tableName: string
-       }
+         }
          ```
 
     6. **InsertExecutor**
