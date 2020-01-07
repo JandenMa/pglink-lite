@@ -33,6 +33,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   - Added `connectionTimeoutMillis` and `idleTimeoutMillis` parameters.
   - Added `DataAccess.Disconnect()` function (beta).
 - **Build20191219 :** `findByPk` function supports multiple primary keys. 
+- **Build20200107 :** Resolved async issue for `autoSetTimeFields`
 
 ---
 
