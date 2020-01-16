@@ -44,6 +44,11 @@ type ConnectionArgsType = {
    * @type {number}
    */
   idleTimeoutMillis?: number
+  /**
+   * @description Connect using ssl connection
+   * @type {boolean}
+   */
+  ssl?: boolean
 }
 
 /**

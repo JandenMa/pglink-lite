@@ -25,14 +25,14 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   - Optimized something
 - **Build20191022 :** Update README.
 - **Build20191111 :** Vast changes.
-- **Build20191112 :** 
+- **Build20191112 :**
   - Added the ability to force flatten results.
   - Added the ability to return a single record.
 - **Build20191114 :** Correct `pg` package dependency.
-- **Build20191120 :** 
+- **Build20191120 :**
   - Added `connectionTimeoutMillis` and `idleTimeoutMillis` parameters.
   - Added `DataAccess.Disconnect()` function (beta).
-- **Build20191219 :** `findByPk` function supports multiple primary keys. 
+- **Build20191219 :** `findByPk` function supports multiple primary keys.
 - **Build20200107 :** Resolved async issue for `autoSetTimeFields`
 
 ---
@@ -60,7 +60,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   ```javascript
   // core/pgsqlize.js
   const { PgLink } = require('pglink-lite')
-  
+
   const pglink = new PgLink({
     host: 'http://192.168.1.100',
     port: 5432,
@@ -69,9 +69,10 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
     database: 'test',
     connectionTimeoutMillis: 0,
     idleTimeoutMillis: 60000,
-    globalAutoSetTimeFields: ['updatedAt']
+    globalAutoSetTimeFields: ['updatedAt'],
+    ssl: true
   })
-  
+
   module.exports.default = pglink
   ```
 
@@ -83,7 +84,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
   class UserModel extends pglink.Model {
     constructor() {
-      super({ tableName: 'users', pkName: 'userId'})
+      super({ tableName: 'users', pkName: 'userId' })
     }
   }
 
@@ -187,19 +188,20 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
   - Props: `object`
 
-    | Key                     | Type            | Introduction                                                 | Default value |
-    | ----------------------- | --------------- | ------------------------------------------------------------ | ------------- |
-    | host                    | `string`        | Postgresql server host                                       | "localhost"   |
-    | port                    | `number`        | Postgresql server port                                       | 5432          |
-    | userName                | `string`        | Postgresql server user name                                  | "postgres"    |
-    | password                | `string`        | Postgresql server password                                   | ""_(empty)_   |
-    | database                | `string`        | Postgresql database name                                     | "postgres"    |
-    | connectionMax           | `number`        | Postgresql database max connection                           | 10            |
-    | connectionTimeoutMillis | `number`        | Number of milliseconds to wait before timing out when connecting a new client, by default this is 0 which means no timeout | 0             |
+    | Key                     | Type            | Introduction                                                                                                                                                                                                                       | Default value |
+    | ----------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+    | host                    | `string`        | Postgresql server host                                                                                                                                                                                                             | "localhost"   |
+    | port                    | `number`        | Postgresql server port                                                                                                                                                                                                             | 5432          |
+    | userName                | `string`        | Postgresql server user name                                                                                                                                                                                                        | "postgres"    |
+    | password                | `string`        | Postgresql server password                                                                                                                                                                                                         | ""_(empty)_   |
+    | database                | `string`        | Postgresql database name                                                                                                                                                                                                           | "postgres"    |
+    | connectionMax           | `number`        | Postgresql database max connection                                                                                                                                                                                                 | 10            |
+    | connectionTimeoutMillis | `number`        | Number of milliseconds to wait before timing out when connecting a new client, by default this is 0 which means no timeout                                                                                                         | 0             |
     | idleTimeoutMillis       | `number`        | Number of milliseconds a client must sit idle in the pool and not be checked out, before it is disconnected from the backend and discarded, default is 10000 (10 seconds) - set to 0 to disable auto-disconnection of idle clients | 10000         |
-    | globalAutoSetTimeFields | `Array<string>` | To define fields that should be automatically updated with a current timestamp | []            |
+    | globalAutoSetTimeFields | `Array<string>` | To define fields that should be automatically updated with a current timestamp                                                                                                                                                     | []            |
+    | ssl                     | `boolean`       | Connect using ssl                                                                                                                                                                                                                  | false         |
 
-- **Inherit and declare model**
+* **Inherit and declare model**
 
   ```javascript
   // example
@@ -258,7 +260,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-         `pkValue`: string | number | object 
+         `pkValue`: string | number | object
 
          - if multiple primary keys, should use object, e.g. {id: 1, cid: 2}
 
@@ -443,15 +445,16 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          - sql: string
 
        - Returns
-  
+
          reponse from database
-       
+
        - Example:
+
          ```javascript
-           const sqlStatement = `SQL STATEMENT GOES HERE`
-           const res = await this.dataAccess.Execute(sqlStatement);
+         const sqlStatement = `SQL STATEMENT GOES HERE`
+         const res = await this.dataAccess.Execute(sqlStatement)
          ```
-         
+
 
     2. **Transaction**
 
@@ -460,7 +463,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          core function with transaction
 
        - Parameters:
-  
+
          ```javascript
           args: {
              params: Array<{
@@ -486,14 +489,14 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          generate insert sql object
 
        - Parameters
-  
+
          ```javascript
          params: object, //data from resolver, includes inserted fields and values
          tableName: string //name of inserted table
          ```
 
        - Returns
-  
+
          ```javascript
          {
            sql: string
@@ -509,7 +512,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          generate bulk insert sql object
 
        - Parameters
-  
+
          ```js
          insertFields: Array<string>,
          params: object, //data from resolver, includes inserted fields and values
@@ -517,7 +520,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          ```
 
        - Returns
-  
+
          ```javascript
          {
            sql: string
@@ -533,7 +536,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          generate update sql object
 
        - Parameters
-  
+
          ```javascript
          {
          	/** an object includes the fields and values you want to update */
@@ -550,7 +553,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          ```
 
        - Returns
-  
+
          ```javascript
          {
            sql: string
@@ -566,15 +569,15 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          execute insert sql
 
        - Parameters
-  
+
          ```js
          params: object, //data from resolver, includes inserted fields and values
          tableName: string, //name of inserted table
          callback?: function //function to run before committing the transaction
          ```
-    
+
        - Returns
-  
+
          response from database
 
     7. **MultiInsertToOneTableExecutor**
@@ -582,9 +585,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Introduction
 
          execute insert sqls to one table
-  
+
        - Parameters
-  
+
          ```js
          insertFields: Array<string>,
          params: object, //data from resolver, includes inserted fields and values
@@ -601,9 +604,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Introduction
 
          execute insert sqls to deferent tables
-  
+
        - Parameters
-  
+
          ```javascript
          Array<
          {
@@ -623,9 +626,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Introduction
 
          execute update sql by primary key
-  
+
        - Parameters
-  
+
          ```javascript
          params: object, //data from resolver, includes updated fields and values
          tableName: string, //name of inserted table
@@ -643,9 +646,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Introduction
 
           execute update sql by conditions
-  
+
         - Parameters
-  
+
           ```javascript
           params: object, //data from resolver, includes updated fields and values
           tableName: string, //name of inserted table
@@ -663,9 +666,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Introduction
 
           execute bulk update sqls by conditions
-  
+
         - Parameters
-  
+
           ```javascript
           Array<
             {
@@ -690,27 +693,27 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           execute delete sql by conditions
 
          - Parameters
-  
+
            ```javascript
            tableName: string, //name of inserted table
            whereClause?: string, //e.g. "employeeId" = '123'
            returnSingleRecord?: boolean,//if true, returns one record instead of array
            callback?: function //function to run before committing the transaction
            ```
-        
+
         - Returns
-        
+
         response from database
-    
-  
+
+
     13. **SingleQueryExecutor**
-  
+
         - Introduction
-  
+
           execute query sql
-  
+
         - Parameters
-  
+
           ```javascript
           {
              /** the name of table */
@@ -729,13 +732,13 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              returnSingleRecord?: boolean
           }
           ```
-  
+
         - Returns
-  
+
           response from database
-        
+
     14. **Disconnect** [Beta Function]
-    
+
         - Introduction
-    
+
           It will drain the pool of all active clients, disconnect them, and shut down any internal timers in the pool. It is common to call this at the end of a script using the pool or when your process is attempting to shut down cleanly.
