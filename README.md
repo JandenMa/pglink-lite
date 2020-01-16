@@ -69,7 +69,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
     database: 'test',
     connectionTimeoutMillis: 0,
     idleTimeoutMillis: 60000,
-    globalAutoSetTimeFields: ['updatedAt']
+    globalAutoSetTimeFields: ['updatedAt'],
+    ssl: true
   })
   
   module.exports.default = pglink
@@ -198,7 +199,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
     | connectionTimeoutMillis | `number`        | Number of milliseconds to wait before timing out when connecting a new client, by default this is 0 which means no timeout | 0             |
     | idleTimeoutMillis       | `number`        | Number of milliseconds a client must sit idle in the pool and not be checked out, before it is disconnected from the backend and discarded, default is 10000 (10 seconds) - set to 0 to disable auto-disconnection of idle clients | 10000         |
     | globalAutoSetTimeFields | `Array<string>` | To define fields that should be automatically updated with a current timestamp | []            |
-
+    | ssl                     | `boolean`       | To connect to pg using ssl                                   | false         |
 - **Inherit and declare model**
 
   ```javascript
