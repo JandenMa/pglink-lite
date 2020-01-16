@@ -46,6 +46,11 @@ export declare class PgLink {
      */
     idleTimeoutMillis?: number
     /**
+     * @description Connect using ssl connection
+     * @type {boolean}
+     */
+    ssl?: boolean
+    /**
      * @description used to define fields that should be automatically updated with a current timestamp default []
      * @type {Array<string>}
      */

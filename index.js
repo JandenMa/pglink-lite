@@ -18,6 +18,7 @@ class PgLink {
       connectionMax,
       connectionTimeoutMillis,
       idleTimeoutMillis,
+      ssl, // v0.3.5
       globalAutoSetTimeFields = [] // v0.1.8 for whole app to use
     } = args
     const connection = Connection({
@@ -35,7 +36,8 @@ class PgLink {
       // number of milliseconds a client must sit idle in the pool and not be checked out
       // before it is disconnected from the backend and discarded
       // default is 10000 (10 seconds) - set to 0 to disable auto-disconnection of idle clients
-      idleTimeoutMillis
+      idleTimeoutMillis,
+      ssl
     })
     this.Model = ModelImpl(connection, globalAutoSetTimeFields)
     this.DataTypes = DataType
