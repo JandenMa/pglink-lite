@@ -35,6 +35,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20191219 :** `findByPk` function supports multiple primary keys. 
 - **Build20200107 :** Resolved async issue for `autoSetTimeFields`
 - **Build20200116 :** Added `ssl`
+- **Build20200120 :** Bug fixes.
 
 ---
 
