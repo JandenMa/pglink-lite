@@ -1,4 +1,4 @@
-import { Pool } from 'pg'
+import { Pool, Client } from 'pg'
 
 type GererateSQLReturnType = {
   sql: string
