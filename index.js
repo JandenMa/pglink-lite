@@ -1,6 +1,7 @@
 'use strict'
 
 const { Connection } = require('./lib/core/connection')
+const { DataAccess } = require('./lib/core/dataAccess')
 const { ModelImpl } = require('./lib/model')
 const { DataType } = require('./lib/dataType')
 
@@ -39,7 +40,8 @@ class PgLink {
       idleTimeoutMillis,
       ssl
     })
-    this.Model = ModelImpl(connection, globalAutoSetTimeFields)
+    console.info(`Connected DB at ${host}:${port}/${database} successfully!👍`)
+    this.Model = ModelImpl(new DataAccess(connection), globalAutoSetTimeFields)
     this.DataTypes = DataType
   }
 }

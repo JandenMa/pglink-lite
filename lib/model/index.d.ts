@@ -1,6 +1,5 @@
 import { Pool } from 'pg'
 import { DataAccess } from '../core/dataAccess'
-import { Interface } from 'readline'
 
 /**
  * @interface
@@ -155,10 +154,10 @@ export class ModelBase {
 }
 
 /**
- * @param {Pool} connection
+ * @param {DataAccess} dataAccess
  * @param {Array<string>} globalAutoSetTimeFields used to define fields that should be automatically updated with a current timestamp default []
  */
 export function ModelImpl(
-  connection: Pool,
+  dataAccess: DataAccess,
   globalAutoSetTimeFields: Array<string>
 ): typeof ModelBase
