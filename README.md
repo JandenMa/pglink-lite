@@ -191,18 +191,18 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
   - Props: `object`
 
-    | Key                     | Type            | Introduction                                                 | Default value |
-    | ----------------------- | --------------- | ------------------------------------------------------------ | ------------- |
-    | host                    | `string`        | Postgresql server host                                       | "localhost"   |
-    | port                    | `number`        | Postgresql server port                                       | 5432          |
-    | userName                | `string`        | Postgresql server user name                                  | "postgres"    |
-    | password                | `string`        | Postgresql server password                                   | ""_(empty)_   |
-    | database                | `string`        | Postgresql database name                                     | "postgres"    |
-    | connectionMax           | `number`        | Postgresql database max connection                           | 10            |
-    | connectionTimeoutMillis | `number`        | Number of milliseconds to wait before timing out when connecting a new client, by default this is 0 which means no timeout | 0             |
+    | Key                     | Type            | Introduction                                                                                                                                                                                                                       | Default value |
+    | ----------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+    | host                    | `string`        | Postgresql server host                                                                                                                                                                                                             | "localhost"   |
+    | port                    | `number`        | Postgresql server port                                                                                                                                                                                                             | 5432          |
+    | userName                | `string`        | Postgresql server user name                                                                                                                                                                                                        | "postgres"    |
+    | password                | `string`        | Postgresql server password                                                                                                                                                                                                         | ""_(empty)_   |
+    | database                | `string`        | Postgresql database name                                                                                                                                                                                                           | "postgres"    |
+    | connectionMax           | `number`        | Postgresql database max connection                                                                                                                                                                                                 | 10            |
+    | connectionTimeoutMillis | `number`        | Number of milliseconds to wait before timing out when connecting a new client, by default this is 0 which means no timeout                                                                                                         | 0             |
     | idleTimeoutMillis       | `number`        | Number of milliseconds a client must sit idle in the pool and not be checked out, before it is disconnected from the backend and discarded, default is 10000 (10 seconds) - set to 0 to disable auto-disconnection of idle clients | 10000         |
-    | globalAutoSetTimeFields | `Array<string>` | To define fields that should be automatically updated with a current timestamp | []            |
-    | ssl                     | `boolean`       | To connect to pg using ssl                                   | false         |
+    | globalAutoSetTimeFields | `Array<string>` | To define fields that should be automatically updated with a current timestamp                                                                                                                                                     | []            |
+    | ssl                     | `boolean`       | To connect to pg using ssl                                                                                                                                                                                                         | false         |
 - **Inherit and declare model**
 
   ```javascript
@@ -248,7 +248,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-         `callback`: function
+        `options`: object, default {}
+
+        `callback`: function
 
        - Returns
 
@@ -285,6 +287,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          `whereClause`: string. (e.g. ' name = "Tim" ')
 
          `selectFields`: string, default \*
+
+         `options`: object, default {}
 
          `callback`: function
 

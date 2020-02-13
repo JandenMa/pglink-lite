@@ -31,10 +31,11 @@ export class ModelBase {
 
   /**
    * @method
+   * @param {object} options may contain fields such as sortBy, offset, or limit
    * @param {function} callback Function to be run before comitting the database operation
    * @description query without conditions for one table
    */
-  protected findAll(callback?: Function): object
+  protected findAll(options?: Object, callback?: Function): object
 
   /**
    * @method
@@ -54,11 +55,13 @@ export class ModelBase {
    * @description query with conditions for one table
    * @param whereClause e.g. "employeeId" = '123'
    * @param selectFields default "*"
+   * @param {object} options may contain fields such as sortBy, offset, or limit
    * @param {function} callback Function to be run before comitting the database operation
    */
   protected findByConditions(
     whereClause: string,
     selectFields?: string,
+    options?: object,
     callback?: Function
   ): Array<any>
 
@@ -67,7 +70,7 @@ export class ModelBase {
    * @description insert one row
    * @param {Object} params an object includes the fields and values
    */
-  protected insertOne(params: object, callback?: Function): object
+  protected insertOne(params: Object, callback?: Function): object
 
   /**
    * @method
