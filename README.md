@@ -138,19 +138,19 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
   const getUserById = async (_, args) => {
     const inst = new UserModel()
-    const res = await inst.findByPk(args.userId)
+    const res = await inst.findByPk({ pk: args.userId })
     return res
   }
 
   const insertUser = async (_, args) => {
     const inst = new UserModel()
-    const res = await inst.insertOne({ ...args.user })
+    const res = await inst.insertOne({ params: args.user })
     return res
   }
 
   const editUser = async (_, args) => {
     const inst = new UserModel()
-    const res = await inst.updateByPk({ ...args.user })
+    const res = await inst.updateByPk({ params: args.user })
     return res
   }
 
@@ -191,18 +191,18 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
   - Props: `object`
 
-    | Key                     | Type            | Introduction                                                 | Default value |
-    | ----------------------- | --------------- | ------------------------------------------------------------ | ------------- |
-    | host                    | `string`        | Postgresql server host                                       | "localhost"   |
-    | port                    | `number`        | Postgresql server port                                       | 5432          |
-    | userName                | `string`        | Postgresql server user name                                  | "postgres"    |
-    | password                | `string`        | Postgresql server password                                   | ""_(empty)_   |
-    | database                | `string`        | Postgresql database name                                     | "postgres"    |
-    | connectionMax           | `number`        | Postgresql database max connection                           | 10            |
-    | connectionTimeoutMillis | `number`        | Number of milliseconds to wait before timing out when connecting a new client, by default this is 0 which means no timeout | 0             |
+    | Key                     | Type            | Introduction                                                                                                                                                                                                                       | Default value |
+    | ----------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+    | host                    | `string`        | Postgresql server host                                                                                                                                                                                                             | "localhost"   |
+    | port                    | `number`        | Postgresql server port                                                                                                                                                                                                             | 5432          |
+    | userName                | `string`        | Postgresql server user name                                                                                                                                                                                                        | "postgres"    |
+    | password                | `string`        | Postgresql server password                                                                                                                                                                                                         | ""_(empty)_   |
+    | database                | `string`        | Postgresql database name                                                                                                                                                                                                           | "postgres"    |
+    | connectionMax           | `number`        | Postgresql database max connection                                                                                                                                                                                                 | 10            |
+    | connectionTimeoutMillis | `number`        | Number of milliseconds to wait before timing out when connecting a new client, by default this is 0 which means no timeout                                                                                                         | 0             |
     | idleTimeoutMillis       | `number`        | Number of milliseconds a client must sit idle in the pool and not be checked out, before it is disconnected from the backend and discarded, default is 10000 (10 seconds) - set to 0 to disable auto-disconnection of idle clients | 10000         |
-    | globalAutoSetTimeFields | `Array<string>` | To define fields that should be automatically updated with a current timestamp | []            |
-    | ssl                     | `boolean`       | To connect to pg using ssl                                   | false         |
+    | globalAutoSetTimeFields | `Array<string>` | To define fields that should be automatically updated with a current timestamp                                                                                                                                                     | []            |
+    | ssl                     | `boolean`       | To connect to pg using ssl                                                                                                                                                                                                         | false         |
 - **Inherit and declare model**
 
   ```javascript
@@ -248,7 +248,15 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-         `callback`: function
+        {
+          `options`: object, default {
+            sortBy: undefined,
+            limit: undefined,
+            offset: undefined
+          }
+
+          `callback`: function
+        }
 
        - Returns
 
@@ -262,13 +270,17 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-         `pkValue`: string | number | object 
+         { 
+        
+        `pkValue`: string | number | object 
 
          - if multiple primary keys, should use object, e.g. {id: 1, cid: 2}
 
          `selectFields`: string, default \*
 
          `callback`: function
+         
+         }
 
        - Returns
 
@@ -282,11 +294,21 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-         `whereClause`: string. (e.g. ' name = "Tim" ')
+        {
+          `whereClause`: string. (e.g. ' name = "Tim" ')
 
          `selectFields`: string, default \*
 
+         `options`: object, default {
+           sortBy: undefined,
+           limit: undefined,
+           offset: undefined
+         }
+
          `callback`: function
+        }
+
+         
 
        - Returns
 
@@ -300,9 +322,13 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-         `params`: object. (data from resolver)
+         {
+           
+           `params`: object. (data from resolver)
 
-         `callback`: function
+           `callback`: function
+         
+         }
 
        - Returns
 
@@ -316,11 +342,15 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
+         {
+           
          `items`: Array\<object\>. (data from resolver)
 
          `forceFlat`?: boolean (whether or not to force results into a single array)
 
          `callback`: function
+         
+         }
 
        - Returns
 
@@ -334,11 +364,13 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-         `params`: object. (data from resolver, have to include pkName and pkValue)
+         {
+           `params`: object. (data from resolver, have to include pkName and pkValue)
 
-         `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
+           `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
 
-         `callback`: function
+           `callback`: function
+         }
 
        - Returns
 
@@ -352,13 +384,15 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-         `params`: object. (data from resolver)
+         {
+           `params`: object. (data from resolver)
 
          `whereClause`: string. (e.g. ' name = "Tim" ')
 
          `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
 
          `callback`: function
+        }
 
        - Returns
 
@@ -372,17 +406,19 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-         `items`: Array\<object\>. (data from resolver)
+         {
+           `items`: Array\<object\>. (data from resolver)
 
-         `whereClause`: string with replacements. (e.g. ' company = \$1 ')
+           `whereClause`: string with replacements. (e.g. ' company = \$1 ')
 
-         `replacementFields`: Array\<string\> (e.g. ['company'])
+           `replacementFields`: Array\<string\> (e.g. ['company'])
 
-         `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
+           `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
 
-         `forceFlat`?: boolean (if true, forces results into a single array)
+           `forceFlat`?: boolean (if true, forces results into a single array)
 
-         `callback`: function
+           `callback`: function
+         }
 
        - Returns
 
@@ -396,12 +432,13 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
         - Parameters
 
-          `whereClause`: string. (e.g. ' "companyId" = 1001 ')
+          {
+            `whereClause`: string. (e.g. ' "companyId" = 1001 ')
 
-          `returnSingleRecord?`: boolean (if true, returns just one record)
+            `returnSingleRecord?`: boolean (if true, returns just one record)
 
-          `callback`: function
-
+            `callback`: function
+          }
         - Returns
 
           (Promise) Deleted rows data or errors

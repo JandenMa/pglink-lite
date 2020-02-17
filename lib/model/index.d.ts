@@ -31,112 +31,138 @@ export class ModelBase {
 
   /**
    * @method
+   * @param {object} object
+   * @param {object} object.options may contain fields such as sortBy, offset, or limit
+   * @param {string} options.sortBy an sql string to sort the results of the query
+   * @param {string} options.limit as sql string to limit the results of the queiry
+   * @param {offset} options.offset an sql string to offset the results of the query
    * @param {function} callback Function to be run before comitting the database operation
    * @description query without conditions for one table
    */
-  protected findAll(callback?: Function): object
+  protected findAll(object?: {
+    options?: { sortBy?: String; limit?: String; offset?: String }
+    callback?: Function
+  }): object
 
   /**
    * @method
    * @description query by primary key for one table
-   * @param pk primary key value (if multiple primary keys, should use object, e.g. {id: 1, cid: 2})
-   * @param selectFields default "*"
-   * @param {function} callback Function to be run before comitting the database operation
+   * @param {object} object
+   * @param {string|number} object.pk primary key value
+   * @param {string} object.selectFields which columns you want to query, default '*'
+   * @param {function} object.callback Function to be run before comitting the database operation
    */
-  protected findByPK(
-    pk: string | number | Object,
-    selectFields?: string,
+  protected findByPK(object: {
+    pk: string | number | Object
+    selectFields?: string
     callback?: Function
-  ): object
+  }): object
 
   /**
    * @method
    * @description query with conditions for one table
-   * @param whereClause e.g. "employeeId" = '123'
-   * @param selectFields default "*"
-   * @param {function} callback Function to be run before comitting the database operation
+   * @param {object} object
+   * @param {string} object.whereClause e.g. "employeeId" = '123'
+   * @param {string} object.selectFields which columns you want to query, default '*'
+   * @param {object} object.options may contain fields such as sortBy, offset, or limit
+   * @param {function} object.callback Function to be run before comitting the database operation
+   * @param {string} options.sortBy an sql string to sort the results of the query
+   * @param {string} options.limit as sql string to limit the results of the queiry
+   * @param {offset} options.offset an sql string to offset the results of the query
    */
-  protected findByConditions(
-    whereClause: string,
-    selectFields?: string,
+  protected findByConditions(object: {
+    whereClause: string
+    selectFields?: string
+    options?: object
     callback?: Function
-  ): Array<any>
+  }): Array<Object>
 
   /**
    * @method
    * @description insert one row
-   * @param {Object} params an object includes the fields and values
+   * @param {Object} object
+   * @param {Object} object.params an object includes the fields and values
+   * @param {function} object.callback Function to be run before comitting the database operation
    */
-  protected insertOne(params: object, callback?: Function): object
+  protected insertOne(object: { params: Object; callback?: Function }): object
 
   /**
    * @method
    * @description multiple insert
-   * @param {Array<object>} items the array of data to be inserted into
-   * @param {boolean} forceFlat if true, force all results into one array
+   * @param {Object} object
+   * @param {Array<object>} object.items the array of data to be inserted into table
+   * @param { bool } object.forceFlat force the results into a single array
+   * @param {function} object.callback Function to be run before comitting the database operation
    */
-  protected multiInsert(
-    items: Array<object>,
-    forceFlat?: boolean,
+  protected multiInsert(object: {
+    items: Array<object>
+    forceFlat?: boolean
     callback?: Function
-  ): Array<any>
+  }): Array<any>
 
   /**
    * @method
    * @description update by primary key, but the primary key should be included in the params
-   * @param {Object} params an object includes the fields and values
-   * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in items, e.g ['updatedAt']
+   * @param {Object} object
+   * @param {Object} object.params an object includes the fields and values
+   * @param {Array<string>} object.autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
+   * @param {function} object.callback Function to be run before comitting the database operation
    */
-  protected updateByPk(
-    params: object,
-    autoSetTimeFields?: Array<string>,
+  protected updateByPk(object: {
+    params: object
+    autoSetTimeFields?: Array<string>
     callback?: Function
-  ): object
+  }): object
 
   /**
    * @method
    * @description update by where conditions
-   * @param {Object} params an object includes the fields and values
-   * @param {string} whereClause e.g. "employeeId" = '123'
-   * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
+   * @param {Object} object
+   * @param {Object} object.params an object includes the fields and values
+   * @param {string} object.whereClause e.g. "employeeId" = '123'
+   * @param {Array<string>} object.autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
+   * @param {function} object.callback Function to be run before comitting the database operation
    */
-  protected updateByConditions(
-    params: object,
-    whereClause: string,
-    autoSetTimeFields?: Array<string>,
+  protected updateByConditions(object: {
+    params: object
+    whereClause: string
+    autoSetTimeFields?: Array<string>
     callback?: Function
-  ): object
+  }): object
 
   /**
    * @method
    * @description multiple update by where conditions
-   * @param {Array<object>} items the array of data to be updated into table
-   * @param {string} whereClause e.g. "companyId = $1"
-   * @param {Array<string>} replacementFields e.g ['companyId']
-   * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in items, e.g ['updatedAt']
-   * @param {boolean} forceFlat if true, force all results into one array
-   * @param {function} callback function to be run before comitting the transaction
+   * @param {Object} object
+   * @param {Array<object>} object.items the array of data to be updated into table
+   * @param {string} object.whereClause e.g. "'companyId' = $1"
+   * @param {Array<string>} object.replacementFields e.g ['companyId']
+   * @param {Array<string>} object.autoSetTimeFields Those fields need to set time automatically, should be included in items, e.g ['updatedAt']
+   * @param { bool } object.forceFlat force the results into a single array
+   * @param {function} object.callback Function to be run before comitting the database operation
    */
-  protected multiUpdateWithConditions(
-    items: Array<object>,
-    whereClause?: string,
-    replacementFields?: Array<string>,
-    autoSetTimeFields?: Array<string>,
-    forceFlat?: boolean,
+  protected multiUpdateWithConditions(object: {
+    items: Array<object>
+    whereClause?: string
+    replacementFields?: Array<string>
+    autoSetTimeFields?: Array<string>
+    forceFlat?: boolean
     callback?: Function
-  ): Array<any>
+  }): Array<any>
 
   /**
    * @method
    * @description delete by where conditions
-   * @param {string} whereClause e.g. "employeeId" = '123'
-   * @param {boolean} returnSingleRecord if true, only return one record
+   * @param {object} object
+   * @param {string} object.whereClause e.g. "employeeId" = '123'
+   * @param {boolean} object.returnSingleRecord whether or not to only return one record
+   * @param {function} object.callback Function to be run before comitting the database operation
    */
-  protected deleteByConditions(
-    whereClause: string,
-    returnSingleRecord?: boolean,
+  protected deleteByConditions(object: {
+    whereClause: string
+    returnSingleRecord?: boolean
     callback?: Function
-  ): object
+  }): object
 
   /**
    * @method
