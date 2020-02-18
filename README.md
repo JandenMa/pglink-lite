@@ -37,6 +37,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20200116 :** Added `ssl`
 - **Build20200120 :** Bug fixes.
 - **Build20200212 :** Performance improvements.
+- **Build20200218 :** Bug fixes.
 
 ---
 
@@ -248,15 +249,15 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-        {
-          `options`: object, default {
-            sortBy: undefined,
-            limit: undefined,
-            offset: undefined
-          }
+          {
+            `options`: object, default {
+                sortBy: undefined,
+                limit: undefined,
+                offset: undefined
+            }
 
-          `callback`: function
-        }
+            `callback`: function
+          }
 
        - Returns
 
@@ -271,17 +272,17 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          { 
-        
-        `pkValue`: string | number | object 
-
-         - if multiple primary keys, should use object, e.g. {id: 1, cid: 2}
-
-         `selectFields`: string, default \*
-
-         `callback`: function
          
-         }
-
+          `pkValue`: string | number | object 
+  
+           - if multiple primary keys, should use object, e.g. {id: 1, cid: 2}
+  
+           `selectFields`: string, default \*
+  
+           `callback`: function
+         
+          }
+  
        - Returns
 
          (Promise) One row data or error
@@ -294,21 +295,19 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 
        - Parameters
 
-        {
-          `whereClause`: string. (e.g. ' name = "Tim" ')
+          {
+            `whereClause`: string. (e.g. ' name = "Tim" ')
 
-         `selectFields`: string, default \*
+            `selectFields`: string, default \*
 
-         `options`: object, default {
-           sortBy: undefined,
-           limit: undefined,
-           offset: undefined
-         }
+            `options`: object, default {
+              sortBy: undefined,
+              limit: undefined,
+              offset: undefined
+            }
 
-         `callback`: function
-        }
-
-         
+            `callback`: function
+          }
 
        - Returns
 
@@ -323,13 +322,13 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          {
-           
+     
            `params`: object. (data from resolver)
-
+    
            `callback`: function
-         
+     
          }
-
+    
        - Returns
 
          (Promise) Inserted row data or errors
@@ -343,15 +342,15 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          {
-           
-         `items`: Array\<object\>. (data from resolver)
+     
+          `items`: Array\<object\>. (data from resolver)
+    
+          `forceFlat`?: boolean (whether or not to force results into a single array)
 
-         `forceFlat`?: boolean (whether or not to force results into a single array)
-
-         `callback`: function
-         
+          `callback`: function
+     
          }
-
+    
        - Returns
 
          (Promise) Inserted rows data or errors
@@ -365,13 +364,13 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          {
-           `params`: object. (data from resolver, have to include pkName and pkValue)
-
+       `params`: object. (data from resolver, have to include pkName and pkValue)
+    
            `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
 
            `callback`: function
-         }
-
+     }
+    
        - Returns
 
          (Promise) updated row data or errors
@@ -385,15 +384,15 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          {
-           `params`: object. (data from resolver)
+       `params`: object. (data from resolver)
+    
+           `whereClause`: string. (e.g. ' name = "Tim" ')
 
-         `whereClause`: string. (e.g. ' name = "Tim" ')
+           `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
 
-         `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
-
-         `callback`: function
-        }
-
+           `callback`: function
+    }
+    
        - Returns
 
          (Promise) updated rows data or errors
@@ -407,8 +406,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          {
-           `items`: Array\<object\>. (data from resolver)
-
+       `items`: Array\<object\>. (data from resolver)
+    
            `whereClause`: string with replacements. (e.g. ' company = \$1 ')
 
            `replacementFields`: Array\<string\> (e.g. ['company'])
@@ -418,8 +417,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            `forceFlat`?: boolean (if true, forces results into a single array)
 
            `callback`: function
-         }
-
+     }
+    
        - Returns
 
          (Promise) Updated rows data or errors
@@ -433,14 +432,14 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Parameters
 
           {
-            `whereClause`: string. (e.g. ' "companyId" = 1001 ')
-
+        `whereClause`: string. (e.g. ' "companyId" = 1001 ')
+    
             `returnSingleRecord?`: boolean (if true, returns just one record)
 
             `callback`: function
-          }
+      }
         - Returns
-
+    
           (Promise) Deleted rows data or errors
 
     11. **encodeFromEnum**
@@ -484,7 +483,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          - sql: string
 
        - Returns
-  
+
          reponse from database
        
        - Example:
@@ -493,7 +492,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            const res = await this.dataAccess.Execute(sqlStatement);
          ```
          
-
+  
     2. **Transaction**
 
        - Introduction
@@ -501,7 +500,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          core function with transaction
 
        - Parameters:
-  
+
          ```javascript
           args: {
              params: Array<{
@@ -515,7 +514,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           },
           transaction: Function // callback function or Transaction
          ```
-
+  
        - Returns
 
          reponse from database
@@ -527,14 +526,14 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          generate insert sql object
 
        - Parameters
-  
+
          ```javascript
          params: object, //data from resolver, includes inserted fields and values
          tableName: string //name of inserted table
          ```
-
-       - Returns
   
+       - Returns
+
          ```javascript
          {
            sql: string
@@ -542,7 +541,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            tableName: string
          }
          ```
-
+  
     4. **GenerateMultiInsertSQL**
 
        - Introduction
@@ -550,15 +549,15 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          generate bulk insert sql object
 
        - Parameters
-  
+
          ```js
          insertFields: Array<string>,
          params: object, //data from resolver, includes inserted fields and values
          tableName: string //name of inserted table
          ```
-
-       - Returns
   
+       - Returns
+
          ```javascript
          {
            sql: string
@@ -566,7 +565,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            tableName: string
          }
          ```
-
+  
     5. **GenerateUpdateSQL**
 
        - Introduction
@@ -574,7 +573,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          generate update sql object
 
        - Parameters
-  
+
          ```javascript
          {
          	/** an object includes the fields and values you want to update */
@@ -589,9 +588,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            autoSetTimeFields?: Array<string>
          }
          ```
-
-       - Returns
   
+       - Returns
+
          ```javascript
          {
            sql: string
@@ -599,7 +598,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            tableName: string
          }
          ```
-
+  
     6. **InsertExecutor**
 
        - Introduction
@@ -607,7 +606,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          execute insert sql
 
        - Parameters
-  
+
          ```js
          params: object, //data from resolver, includes inserted fields and values
          tableName: string, //name of inserted table
@@ -617,13 +616,13 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Returns
   
          response from database
-
+  
     7. **MultiInsertToOneTableExecutor**
 
        - Introduction
 
          execute insert sqls to one table
-  
+
        - Parameters
   
          ```js
@@ -632,7 +631,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          tableName: string, //name of inserted table
          callback?: function //function to run before committing the transaction
          ```
-
+  
        - Returns
 
          response from database
@@ -642,7 +641,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Introduction
 
          execute insert sqls to deferent tables
-  
+
        - Parameters
   
          ```javascript
@@ -654,7 +653,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          forceFlat?: boolean, //if true, forces results into one array
          callback?: function //function to run before committing the transaction
          ```
-
+  
        - Returns
 
          response from database
@@ -664,7 +663,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Introduction
 
          execute update sql by primary key
-  
+
        - Parameters
   
          ```javascript
@@ -674,7 +673,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          autoSetTimeFields?: Array<string> ,//those fields need to set time automatically
          callback?: function //function to run before committing the transaction
          ```
-
+  
        - Returns
 
          response from database
@@ -684,7 +683,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Introduction
 
           execute update sql by conditions
-  
+
         - Parameters
   
           ```javascript
@@ -694,7 +693,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           autoSetTimeFields?: Array<string>, //those fields need to set time automatically
           callback?: function //function to run before committing the transaction
           ```
-
+  
         - Returns
 
           response from database
@@ -704,7 +703,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
         - Introduction
 
           execute bulk update sqls by conditions
-  
+
         - Parameters
   
           ```javascript
@@ -719,7 +718,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
             forceFlat?: boolean, //if true, forces results into a single array
             callback?: function //function to run before committing the transaction
           ```
-
+  
         - Returns
 
           response from database
@@ -731,7 +730,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           execute delete sql by conditions
 
          - Parameters
-  
+
            ```javascript
            tableName: string, //name of inserted table
            whereClause?: string, //e.g. "employeeId" = '123'
