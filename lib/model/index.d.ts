@@ -52,7 +52,7 @@ export class ModelBase {
    * @param {string} object.selectFields which columns you want to query, default '*'
    * @param {function} object.callback Function to be run before comitting the database operation
    */
-  protected findByPK(object: {
+  protected findByPk(object: {
     pk: string | number | Object
     selectFields?: string
     callback?: Function
