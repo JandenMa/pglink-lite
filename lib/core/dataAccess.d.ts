@@ -48,7 +48,7 @@ export class DataAccess {
   /**
    * Transaction
    * @description Commit many sqls in one transaction, and will rollback all if exist one sql execute failed.
-   * @param {{params: Array<{sql: string,replacements?: Array<any>,alias?: string}>,returnWithAlias?: boolean, returnSingleRecord?: boolean, forceFlat?: boolean}} args includes sqls, their params and alias name.
+   * @param {{params: Array<{sql: string,replacements?: Array<any>,alias?: string}>,returnWithAlias?: boolean, returnSingleRecord?: boolean, forceFlat?: boolean client?: object}} args includes sqls, their params and alias name.
    * @param {Function} transaction you can use nested transaction here, you will receive the response from outer transaction, and if inner transaction rollback, others would be rollback
    * @author Janden Ma
    */
@@ -58,6 +58,7 @@ export class DataAccess {
         sql: string
         replacements?: Array<any>
         alias?: string
+        client?: object
       }>
       returnWithAlias?: boolean
       returnSingleRecord?: boolean
@@ -128,13 +129,15 @@ export class DataAccess {
    * @param {object} params an object includes the fields and values you want to insert
    * @param {string} tableName the name of table
    * @param {function} callback function to be run before committing the database transaction
+   * @param {object} client the pg client used for each query in the transaction
    * @returns {object} the response from postgres
    */
-  public InsertExecutor(
-    params: object,
-    tableName: string,
+  public InsertExecutor(args: {
+    params: object
+    tableName: string
     callback?: Function
-  ): object
+    client?: object
+  }): object
 
   /**
    * @description An execute inserting helper function
@@ -142,27 +145,31 @@ export class DataAccess {
    * @param {Array<object>} params an array includes the fields and values you want to insert
    * @param {string} tableName the name of table
    * @param {function} callback function to be run before committing the database transaction
+   * @param {object} client the pg client used for each query in the transaction
    * @returns {Array} the responses from postgres
    */
-  public MultiInsertToOneTableExecutor(
-    insertFields: Array<string>,
-    params: Array<object>,
-    tableName: string,
+  public MultiInsertToOneTableExecutor(args: {
+    insertFields: Array<string>
+    params: Array<object>
+    tableName: string
     callback?: Function
-  ): object
+    client?: object
+  }): object
 
   /**
    * @description An execute inserting helper function
    * @param {Array<{params: object, tableName: string}>} items
    * @param {boolean} forceFlat if true, force all results into a single array
    * @param {function} callback function to be run before committing the database transaction
+   * @param {object} client the pg client used for each query in the transaction
    * @returns {Array} the responses from postgres
    */
-  public MultiInsertExecutor(
-    items: Array<{ params: object; tableName: string }>,
-    forceFlat?: boolean,
+  public MultiInsertExecutor(args: {
+    items: Array<{ params: object; tableName: string }>
+    forceFlat?: boolean
     callback?: Function
-  ): Array<object>
+    client?: object
+  }): Array<object>
 
   /**
    * @description An execute updating helper function, update by primary key
@@ -171,15 +178,17 @@ export class DataAccess {
    * @param {string} pkName the name of primary key, default 'id'
    * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
    * @param {function} callback function to be run before committing the database transaction
+   * @param {object} client the pg client used for each query in the transaction
    * @returns {object} the response from postgres
    */
-  public UpdateByPkExecutor(
-    params: object,
-    tableName: string,
-    pkName?: string,
-    autoSetTimeFields?: Array<string>,
+  public UpdateByPkExecutor(args: {
+    params: object
+    tableName: string
+    pkName?: string
+    autoSetTimeFields?: Array<string>
     callback?: Function
-  ): object
+    client?: object
+  }): object
 
   /**
    * @description An execute updating helper function, custom conditions
@@ -188,30 +197,36 @@ export class DataAccess {
    * @param {string} whereClause e.g. "employeeId" = '123'
    * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
    * @param {function} callback function to be run before committing the database transaction
+   * @param {object} client the pg client used for each query in the transaction
    * @returns {object} the response from postgres
    */
-  public UpdateExecutor(
-    params: object,
-    tableName: string,
-    whereClause: string,
-    autoSetTimeFields?: Array<string>,
+  public UpdateExecutor(args: {
+    params: object
+    tableName: string
+    whereClause: string
+    autoSetTimeFields?: Array<string>
     callback?: Function
-  ): object
+    client?: object
+  }): object
 
   /**
    * @description An execute updating helper function, custom conditions
    * @param {Array<{params: object, tableName: string, whereClause: string, pkName: string, autoSetTimeFields: Array<string>}>} items
    * @forceFlat {boolean} if true, force all results into a single array
    * @param {function} callback function to be run before committing the database transaction
+   * @param {object} client the pg client used for each query in the transaction
    * @returns {Array<object>} the response from postgres
    */
   public MultiUpdateExecutor(
     items: Array<{
-      params: object
-      tableName: string
-      whereClause: string
-      pkName: string
-      autoSetTimeFields?: Array<string>
+      args: {
+        params: object
+        tableName: string
+        whereClause: string
+        pkName: string
+        autoSetTimeFields?: Array<string>
+        client?: object
+      }
     }>,
     forceFlat?: boolean,
     callback?: Function
@@ -238,14 +253,16 @@ export class DataAccess {
    * @param {string} whereClause e.g. "employeeId" = '123'
    * @param {boolean} returnSingleRecord if true, only return one record
    * @param {function} callback function to be run before committing the database transaction
+   * @param {object} client the pg client used for each query in the transaction
    * @returns {object} the response from postgres
    */
-  public DeleteExecutor(
-    tableName: string,
-    whereClause: string,
-    returnSingleRecord?: boolean,
+  public DeleteExecutor(args: {
+    tableName: string
+    whereClause: string
+    returnSingleRecord?: boolean
     callback?: Function
-  ): object
+    client?: object
+  }): object
 
   /**
    * @description An execute querying helper function for one table
@@ -269,5 +286,7 @@ export class DataAccess {
     callback?: any
     /** whether or not to return a single record*/
     returnSingleRecord?: boolean
+    /** client to be used for the transaction*/
+    client?: object
   }): object
 }

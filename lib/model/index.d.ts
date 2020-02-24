@@ -83,8 +83,13 @@ export class ModelBase {
    * @param {Object} object
    * @param {Object} object.params an object includes the fields and values
    * @param {function} object.callback Function to be run before comitting the database operation
+   * @param {object} object.client the pg client used for each query in the transaction
    */
-  protected insertOne(object: { params: Object; callback?: Function }): object
+  protected insertOne(object: {
+    params: Object
+    callback?: Function
+    client?: Object
+  }): object
 
   /**
    * @method
@@ -93,11 +98,13 @@ export class ModelBase {
    * @param {Array<object>} object.items the array of data to be inserted into table
    * @param { bool } object.forceFlat force the results into a single array
    * @param {function} object.callback Function to be run before comitting the database operation
+   * @param {object} object.client the pg client used for each query in the transaction
    */
   protected multiInsert(object: {
     items: Array<object>
     forceFlat?: boolean
     callback?: Function
+    client?: Object
   }): Array<any>
 
   /**
@@ -107,11 +114,13 @@ export class ModelBase {
    * @param {Object} object.params an object includes the fields and values
    * @param {Array<string>} object.autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
    * @param {function} object.callback Function to be run before comitting the database operation
+   * @param {object} object.client the pg client used for each query in the transaction
    */
   protected updateByPk(object: {
     params: object
     autoSetTimeFields?: Array<string>
     callback?: Function
+    client?: Object
   }): object
 
   /**
@@ -122,12 +131,14 @@ export class ModelBase {
    * @param {string} object.whereClause e.g. "employeeId" = '123'
    * @param {Array<string>} object.autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
    * @param {function} object.callback Function to be run before comitting the database operation
+   * @param {object} object.client the pg client used for each query in the transaction
    */
   protected updateByConditions(object: {
     params: object
     whereClause: string
     autoSetTimeFields?: Array<string>
     callback?: Function
+    client?: Object
   }): object
 
   /**
@@ -140,6 +151,7 @@ export class ModelBase {
    * @param {Array<string>} object.autoSetTimeFields Those fields need to set time automatically, should be included in items, e.g ['updatedAt']
    * @param { bool } object.forceFlat force the results into a single array
    * @param {function} object.callback Function to be run before comitting the database operation
+   * @param {object} object.client the pg client used for each query in the transaction
    */
   protected multiUpdateWithConditions(object: {
     items: Array<object>
@@ -148,6 +160,7 @@ export class ModelBase {
     autoSetTimeFields?: Array<string>
     forceFlat?: boolean
     callback?: Function
+    client?: Object
   }): Array<any>
 
   /**
@@ -157,11 +170,13 @@ export class ModelBase {
    * @param {string} object.whereClause e.g. "employeeId" = '123'
    * @param {boolean} object.returnSingleRecord whether or not to only return one record
    * @param {function} object.callback Function to be run before comitting the database operation
+   * @param {object} object.client the pg client used for each query in the transaction
    */
   protected deleteByConditions(object: {
     whereClause: string
     returnSingleRecord?: boolean
     callback?: Function
+    client?: Object
   }): object
 
   /**

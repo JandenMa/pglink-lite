@@ -326,6 +326,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            `params`: object. (data from resolver)
     
            `callback`: function
+
+           `client`: object
      
          }
     
@@ -348,6 +350,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           `forceFlat`?: boolean (whether or not to force results into a single array)
 
           `callback`: function
+
+          `client`: object
      
          }
     
@@ -369,6 +373,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
 
            `callback`: function
+
+           `client`: object
      }
     
        - Returns
@@ -391,6 +397,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
 
            `callback`: function
+           
+           `client`: object
     }
     
        - Returns
@@ -417,6 +425,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            `forceFlat`?: boolean (if true, forces results into a single array)
 
            `callback`: function
+
+           `client`: object
      }
     
        - Returns
@@ -437,6 +447,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
             `returnSingleRecord?`: boolean (if true, returns just one record)
 
             `callback`: function
+
+            `client`: object
       }
         - Returns
     
@@ -505,8 +517,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           args: {
              params: Array<{
              sql: string
-               replacements?: Array<any>
+             replacements?: Array<any>
              alias?: string // to distinguish responses
+             client?: object
              }>
            returnWithAlias?: boolean, // if true, return res with alias
            returnSingleRecord?: boolean,
@@ -610,7 +623,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          ```js
          params: object, //data from resolver, includes inserted fields and values
          tableName: string, //name of inserted table
-         callback?: function //function to run before committing the transaction
+         callback?: function, //function to run before committing the transaction
+         client?: object //the pg client to be used for the transaction
          ```
     
        - Returns
@@ -629,7 +643,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          insertFields: Array<string>,
          params: object, //data from resolver, includes inserted fields and values
          tableName: string, //name of inserted table
-         callback?: function //function to run before committing the transaction
+         callback?: function, //function to run before committing the transaction
+         client?: object //the pg client to be used for the transaction
          ```
   
        - Returns
@@ -651,7 +666,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            tableName: string //name of inserted table
          }>,
          forceFlat?: boolean, //if true, forces results into one array
-         callback?: function //function to run before committing the transaction
+         callback?: function, //function to run before committing the transaction
+         client?: object //the pg client to be used for the transaction
          ```
   
        - Returns
@@ -671,7 +687,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          tableName: string, //name of inserted table
          pkName?: string, //the name of primary key
          autoSetTimeFields?: Array<string> ,//those fields need to set time automatically
-         callback?: function //function to run before committing the transaction
+         callback?: function, //function to run before committing the transaction
+         client?: object //the pg client to be used for the transaction
          ```
   
        - Returns
@@ -691,7 +708,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           tableName: string, //name of inserted table
           whereClause?: string, //e.g. "employeeId" = '123'
           autoSetTimeFields?: Array<string>, //those fields need to set time automatically
-          callback?: function //function to run before committing the transaction
+          callback?: function, //function to run before committing the transaction
+          client?: object //the pg client to be used for the transaction
           ```
   
         - Returns
@@ -713,7 +731,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
               tableName: string, //name of inserted table
               whereClause?: string //e.g. "employeeId" = '123'
               pkName: string, //the name of primary key
-              autoSetTimeFields?: Array<string> //those fields need to set time automatically
+              autoSetTimeFields?: Array<string>, //those fields need to set time automatically
+              client?: object //the pg client to be used for the transaction
             }>,
             forceFlat?: boolean, //if true, forces results into a single array
             callback?: function //function to run before committing the transaction
@@ -735,7 +754,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            tableName: string, //name of inserted table
            whereClause?: string, //e.g. "employeeId" = '123'
            returnSingleRecord?: boolean,//if true, returns one record instead of array
-           callback?: function //function to run before committing the transaction
+           callback?: function, //function to run before committing the transaction
+           client?: object //the pg client to be used for the transaction
            ```
         
         - Returns
@@ -766,7 +786,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              /** how many rows you want to skip */
              offset?: number,
             /** if true, return a single record instead of an array */
-             returnSingleRecord?: boolean
+             returnSingleRecord?: boolean,
+             client?: object //the pg client to be used for the transaction
           }
           ```
   
