@@ -38,6 +38,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20200120 :** Bug fixes.
 - **Build20200212 :** Performance improvements.
 - **Build20200218 :** Bug fixes.
+- **Build20200409 :** Bug fixes and performance improvements.
 
 ---
 
@@ -322,13 +323,13 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          {
-     
+    
            `params`: object. (data from resolver)
     
            `callback`: function
 
            `client`: object
-     
+    
          }
     
        - Returns
@@ -344,7 +345,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
        - Parameters
 
          {
-     
+    
           `items`: Array\<object\>. (data from resolver)
     
           `forceFlat`?: boolean (whether or not to force results into a single array)
@@ -352,7 +353,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           `callback`: function
 
           `client`: object
-     
+    
          }
     
        - Returns
@@ -397,7 +398,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            `autoSetTimeFields`: Those fields need to set time automatically, should be included in items
 
            `callback`: function
-           
+         
            `client`: object
     }
     
@@ -449,7 +450,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
             `callback`: function
 
             `client`: object
-      }
+        }
         - Returns
     
           (Promise) Deleted rows data or errors
