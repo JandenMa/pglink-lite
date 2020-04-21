@@ -45,6 +45,15 @@ export class DataAccess {
    */
   public Execute(sql: string): any
 
+  /** Begin a customize transaction */
+  public BeginTransaction(): Promise<Client | null>
+
+  /** Commit customize transaction */
+  public CommitTransaction(client: Client): void
+
+  /**  Rollback Customize Transaction */
+  public RollbackTransaction(args: { client: Client; error: any }): void
+
   /**
    * Transaction
    * @description Commit many sqls in one transaction, and will rollback all if exist one sql execute failed.
