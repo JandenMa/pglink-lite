@@ -39,6 +39,10 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20200212 :** Performance improvements.
 - **Build20200218 :** Bug fixes.
 - **Build20200409 :** Bug fixes and performance improvements.
+- **Build20200421 :** Added customize transaction functions
+  - BeginTransaction
+  - CommitTransaction
+  - RollbackTransaction
 
 ---
 
