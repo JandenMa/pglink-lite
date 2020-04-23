@@ -43,6 +43,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   - BeginTransaction
   - CommitTransaction
   - RollbackTransaction
+- **Build20200423 :** Bug fixes
 
 ---
 
