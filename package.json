@@ -24,12 +24,12 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "pg": "^7.12.1"
+    "pg": "^8.0.3"
   },
   "devDependencies": {
-    "@types/node": "^12.7.2",
-    "@types/pg": "^7.11.0",
-    "typescript": "^3.5.3"
+    "@types/node": "^13.13.2",
+    "@types/pg": "^7.14.3",
+    "typescript": "^3.8.3"
   },
   "bugs": {
     "url": "https://github.com/JandenMa/pglink-lite/issues",
