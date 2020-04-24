@@ -1,6 +1,6 @@
 {
   "name": "pglink-lite",
-  "version": "0.4.3-rc3",
+  "version": "0.4.3-rc4",
   "description": "A lite library for Postgresql to use ORM on NodeJS with GraphQL",
   "main": "index.js",
   "author": {
@@ -27,7 +27,7 @@
     "pg": "^8.0.3"
   },
   "devDependencies": {
-    "@types/node": "^13.13.2",
+    "@types/node": "^12.12.37",
     "@types/pg": "^7.14.3",
     "typescript": "^3.8.3"
   },
