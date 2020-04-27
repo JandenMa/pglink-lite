@@ -44,6 +44,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   - CommitTransaction
   - RollbackTransaction
 - **Build20200423 :** Bug fixes
+- **Build20200427 :** Optimized client connections in `Transaction`
 
 ---
 
