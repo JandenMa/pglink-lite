@@ -285,8 +285,8 @@ export class DataAccess {
     whereClause: string
     /** the fields what you want to select, default * */
     selectFields?: string
-    /** the field name for sorting, e.g.: 'id DESC' */
-    sortBy?: string
+    /** the field name for sorting, e.g.: [{field: 'id', sequence:'DESC'}] */
+    sortBy?: Array<{ field: string; sequence?: 'ASC' | 'DESC' }>
     /** to limit the count of rows you want to query */
     limit?: number
     /** how many rows you want to skip */

@@ -33,14 +33,18 @@ export class ModelBase {
    * @method
    * @param {object} object
    * @param {object} object.options may contain fields such as sortBy, offset, or limit
-   * @param {string} options.sortBy an sql string to sort the results of the query
+   * @param {Array<{ field: String; sequence?: 'ASC' | 'DESC' }>} options.sortBy an sql string to sort the results of the query
    * @param {string} options.limit as sql string to limit the results of the queiry
    * @param {offset} options.offset an sql string to offset the results of the query
    * @param {function} callback Function to be run before comitting the database operation
    * @description query without conditions for one table
    */
   protected findAll(object?: {
-    options?: { sortBy?: String; limit?: String; offset?: String }
+    options?: {
+      sortBy?: Array<{ field: String; sequence?: 'ASC' | 'DESC' }>
+      limit?: String
+      offset?: String
+    }
     callback?: Function
   }): object
 
@@ -66,14 +70,18 @@ export class ModelBase {
    * @param {string} object.selectFields which columns you want to query, default '*'
    * @param {object} object.options may contain fields such as sortBy, offset, or limit
    * @param {function} object.callback Function to be run before comitting the database operation
-   * @param {string} options.sortBy an sql string to sort the results of the query
+   * @param {Array<{ field: String; sequence?: 'ASC' | 'DESC' }>} options.sortBy an sql string to sort the results of the query
    * @param {string} options.limit as sql string to limit the results of the queiry
    * @param {offset} options.offset an sql string to offset the results of the query
    */
   protected findByConditions(object: {
     whereClause: string
     selectFields?: string
-    options?: object
+    options?: {
+      sortBy?: Array<{ field: String; sequence?: 'ASC' | 'DESC' }>
+      limit?: String
+      offset?: String
+    }
     callback?: Function
   }): Array<Object>
 
