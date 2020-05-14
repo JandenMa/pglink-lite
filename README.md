@@ -45,6 +45,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
   - RollbackTransaction
 - **Build20200423 :** Bug fixes
 - **Build20200427 :** Optimized client connections in `Transaction`
+- **Build20200514 :** Correct `sortBy` option for build querying sql
 
 ---
 
@@ -786,8 +787,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              whereClause: string
              /** the fields what you want to select, default * */
              selectFields?: string
-             /** the field name for sorting, e.g.: 'id DESC' */
-             sortBy?: string
+             /** the field name for sorting, e.g.: [{field: 'id', sequence:'DESC'}] */
+             sortBy?: Array<{ field: String; sequence?: 'ASC' | 'DESC' }>
              /** to limit the count of rows you want to query */
              limit?: number
              /** how many rows you want to skip */
