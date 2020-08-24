@@ -46,6 +46,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20200423 :** Bug fixes
 - **Build20200427 :** Optimized client connections in `Transaction`
 - **Build20200514 :** Correct `sortBy` option for build querying sql
+- **Build20200824 :** Bug fixes
 
 ---
 
