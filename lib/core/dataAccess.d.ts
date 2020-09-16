@@ -67,8 +67,8 @@ export class DataAccess {
         sql: string
         replacements?: Array<any>
         alias?: string
-        client?: object
       }>
+      client?: object
       returnWithAlias?: boolean
       returnSingleRecord?: boolean
       forceFlat?: boolean
