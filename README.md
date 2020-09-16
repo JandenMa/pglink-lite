@@ -47,6 +47,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20200427 :** Optimized client connections in `Transaction`
 - **Build20200514 :** Correct `sortBy` option for build querying sql
 - **Build20200824 :** Bug fixes
+- **Build20200917 :** Correct declaration and signature of parameters to  `Transaction` 
 
 ---
 
@@ -528,8 +529,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
              sql: string
              replacements?: Array<any>
              alias?: string // to distinguish responses
-             client?: object
              }>
+           client?: object
            returnWithAlias?: boolean, // if true, return res with alias
            returnSingleRecord?: boolean,
            forceFlat?: boolean
