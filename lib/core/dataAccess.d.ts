@@ -57,7 +57,7 @@ export class DataAccess {
   /**
    * Transaction
    * @description Commit many sqls in one transaction, and will rollback all if exist one sql execute failed.
-   * @param {{params: Array<{sql: string,replacements?: Array<any>,alias?: string}>,returnWithAlias?: boolean, returnSingleRecord?: boolean, forceFlat?: boolean client?: object}} args includes sqls, their params and alias name.
+   * @param {{params: Array<{sql: string,replacements?: Array<any>,alias?: string}>,returnWithAlias?: boolean, returnSingleRecord?: boolean, forceFlat?: boolean client?: object, skipCommit?: boolean}} args includes sqls, their params and alias name.
    * @param {Function} transaction you can use nested transaction here, you will receive the response from outer transaction, and if inner transaction rollback, others would be rollback
    * @author Janden Ma
    */
@@ -71,7 +71,8 @@ export class DataAccess {
       client?: object
       returnWithAlias?: boolean
       returnSingleRecord?: boolean
-      forceFlat?: boolean
+      forceFlat?: boolean,
+      skipCommit?: boolean
     },
     transaction: Function
   ): any
