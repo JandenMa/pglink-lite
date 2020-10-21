@@ -534,7 +534,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            client?: object
            returnWithAlias?: boolean, // if true, return res with alias
            returnSingleRecord?: boolean,
-           forceFlat?: boolean
+           forceFlat?: boolean,
+           preserveClient?: boolean // Skips committing the operation, leaving the client open for further operations in the transaction
           },
           transaction: Function // callback function or Transaction
          ```
