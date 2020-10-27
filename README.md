@@ -49,6 +49,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20200824 :** Bug fixes
 - **Build20200917 :** Correct declaration and signature of parameters to  `Transaction` 
 - **Build20201010 :** Upgrade `pg` to support PostgreSQL 13
+- **Build20201027 :** Try to resolve ssl connections failed issue
 
 ---
 
