@@ -36,6 +36,7 @@ export class ModelBase {
    * @param {Array<{ field: String; sequence?: 'ASC' | 'DESC' }>} options.sortBy an sql string to sort the results of the query
    * @param {string} options.limit as sql string to limit the results of the queiry
    * @param {offset} options.offset an sql string to offset the results of the query
+   * @param {bool} object.preserveClient whether or not to skip committing the client after the transaction
    * @param {function} callback Function to be run before comitting the database operation
    * @description query without conditions for one table
    */
@@ -44,6 +45,7 @@ export class ModelBase {
       sortBy?: Array<{ field: String; sequence?: 'ASC' | 'DESC' }>
       limit?: String
       offset?: String
+      preserveClient?: Boolean
     }
     callback?: Function
   }): object
@@ -55,11 +57,13 @@ export class ModelBase {
    * @param {string|number} object.pk primary key value
    * @param {string} object.selectFields which columns you want to query, default '*'
    * @param {function} object.callback Function to be run before comitting the database operation
+   * @param {bool} object.preserveClient whether or not to skip committing the client after the transaction
    */
   protected findByPk(object: {
     pk: string | number | Object
     selectFields?: string
     callback?: Function
+    preserveClient?: Boolean
   }): object
 
   /**
@@ -70,6 +74,7 @@ export class ModelBase {
    * @param {string} object.selectFields which columns you want to query, default '*'
    * @param {object} object.options may contain fields such as sortBy, offset, or limit
    * @param {function} object.callback Function to be run before comitting the database operation
+   * @param {bool} objerct.preserveClient whether or not to skip committing the client after the transaction
    * @param {Array<{ field: String; sequence?: 'ASC' | 'DESC' }>} options.sortBy an sql string to sort the results of the query
    * @param {string} options.limit as sql string to limit the results of the queiry
    * @param {offset} options.offset an sql string to offset the results of the query
@@ -82,6 +87,7 @@ export class ModelBase {
       limit?: String
       offset?: String
     }
+    preserveClient?: Boolean
     callback?: Function
   }): Array<Object>
 
@@ -92,11 +98,13 @@ export class ModelBase {
    * @param {Object} object.params an object includes the fields and values
    * @param {function} object.callback Function to be run before comitting the database operation
    * @param {object} object.client the pg client used for each query in the transaction
+   * @param {bool} object.preserveClient whether or not to skip committing the client after the transaction
    */
   protected insertOne(object: {
     params: Object
     callback?: Function
     client?: Object
+    preserveClient?: Boolean
   }): object
 
   /**
@@ -107,12 +115,14 @@ export class ModelBase {
    * @param { bool } object.forceFlat force the results into a single array
    * @param {function} object.callback Function to be run before comitting the database operation
    * @param {object} object.client the pg client used for each query in the transaction
+   * @param {bool} object.preserveClient whether or not to skip committing the client after the transaction
    */
   protected multiInsert(object: {
     items: Array<object>
     forceFlat?: boolean
     callback?: Function
     client?: Object
+    preserveClient?: Boolean
   }): Array<any>
 
   /**
@@ -123,12 +133,14 @@ export class ModelBase {
    * @param {Array<string>} object.autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
    * @param {function} object.callback Function to be run before comitting the database operation
    * @param {object} object.client the pg client used for each query in the transaction
+   * @param {bool} object.preserveClient whether or not to skip committing the client after the transaction
    */
   protected updateByPk(object: {
     params: object
     autoSetTimeFields?: Array<string>
     callback?: Function
     client?: Object
+    preserveClient?: Boolean
   }): object
 
   /**
@@ -140,6 +152,7 @@ export class ModelBase {
    * @param {Array<string>} object.autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
    * @param {function} object.callback Function to be run before comitting the database operation
    * @param {object} object.client the pg client used for each query in the transaction
+   * @param {bool} object.preserveClient whether or not to skip committing the client after the transaction
    */
   protected updateByConditions(object: {
     params: object
@@ -147,6 +160,7 @@ export class ModelBase {
     autoSetTimeFields?: Array<string>
     callback?: Function
     client?: Object
+    preserveClient?: Boolean
   }): object
 
   /**
@@ -160,6 +174,7 @@ export class ModelBase {
    * @param { bool } object.forceFlat force the results into a single array
    * @param {function} object.callback Function to be run before comitting the database operation
    * @param {object} object.client the pg client used for each query in the transaction
+   * @param {bool} object.preserveClient whether or not to skip committing the client after the transaction
    */
   protected multiUpdateWithConditions(object: {
     items: Array<object>
@@ -169,6 +184,7 @@ export class ModelBase {
     forceFlat?: boolean
     callback?: Function
     client?: Object
+    preserveClient?: Boolean
   }): Array<any>
 
   /**
@@ -179,12 +195,14 @@ export class ModelBase {
    * @param {boolean} object.returnSingleRecord whether or not to only return one record
    * @param {function} object.callback Function to be run before comitting the database operation
    * @param {object} object.client the pg client used for each query in the transaction
+   * @param {bool} object.preserveClient whether or not to skip committing the client after the transaction
    */
   protected deleteByConditions(object: {
     whereClause: string
     returnSingleRecord?: boolean
     callback?: Function
     client?: Object
+    preserveClient?: Boolean
   }): object
 
   /**

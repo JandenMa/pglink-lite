@@ -71,7 +71,7 @@ export class DataAccess {
       client?: object
       returnWithAlias?: boolean
       returnSingleRecord?: boolean
-      forceFlat?: boolean,
+      forceFlat?: boolean
       preserveClient?: boolean
     },
     transaction: Function
@@ -140,6 +140,7 @@ export class DataAccess {
    * @param {string} tableName the name of table
    * @param {function} callback function to be run before committing the database transaction
    * @param {object} client the pg client used for each query in the transaction
+   * @param {bool} preserveClient whether or not to skip committing the client after the transaction
    * @returns {object} the response from postgres
    */
   public InsertExecutor(args: {
@@ -147,6 +148,7 @@ export class DataAccess {
     tableName: string
     callback?: Function
     client?: object
+    preserveClient?: boolean
   }): object
 
   /**
@@ -156,6 +158,7 @@ export class DataAccess {
    * @param {string} tableName the name of table
    * @param {function} callback function to be run before committing the database transaction
    * @param {object} client the pg client used for each query in the transaction
+   * @param {bool} preserveClient whether or not to skip committing the client after the transaction
    * @returns {Array} the responses from postgres
    */
   public MultiInsertToOneTableExecutor(args: {
@@ -164,6 +167,7 @@ export class DataAccess {
     tableName: string
     callback?: Function
     client?: object
+    preserveClient?: boolean
   }): object
 
   /**
@@ -172,6 +176,7 @@ export class DataAccess {
    * @param {boolean} forceFlat if true, force all results into a single array
    * @param {function} callback function to be run before committing the database transaction
    * @param {object} client the pg client used for each query in the transaction
+   * @param {bool} preserveClient whether or not to skip committing the client after the transaction
    * @returns {Array} the responses from postgres
    */
   public MultiInsertExecutor(args: {
@@ -179,6 +184,7 @@ export class DataAccess {
     forceFlat?: boolean
     callback?: Function
     client?: object
+    preserveClient?: boolean
   }): Array<object>
 
   /**
@@ -189,6 +195,7 @@ export class DataAccess {
    * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
    * @param {function} callback function to be run before committing the database transaction
    * @param {object} client the pg client used for each query in the transaction
+   * @param {bool} preserveClient whether or not to skip committing the client after the transaction
    * @returns {object} the response from postgres
    */
   public UpdateByPkExecutor(args: {
@@ -198,6 +205,7 @@ export class DataAccess {
     autoSetTimeFields?: Array<string>
     callback?: Function
     client?: object
+    preserveClient?: boolean
   }): object
 
   /**
@@ -208,6 +216,7 @@ export class DataAccess {
    * @param {Array<string>} autoSetTimeFields Those fields need to set time automatically, should be included in params, e.g ['updatedAt']
    * @param {function} callback function to be run before committing the database transaction
    * @param {object} client the pg client used for each query in the transaction
+   * @param {bool} preserveClient whether or not to skip committing the client after the transaction
    * @returns {object} the response from postgres
    */
   public UpdateExecutor(args: {
@@ -217,6 +226,7 @@ export class DataAccess {
     autoSetTimeFields?: Array<string>
     callback?: Function
     client?: object
+    preserveClient?: boolean
   }): object
 
   /**
@@ -225,6 +235,7 @@ export class DataAccess {
    * @forceFlat {boolean} if true, force all results into a single array
    * @param {function} callback function to be run before committing the database transaction
    * @param {object} client the pg client used for each query in the transaction
+   * @param {bool} preserveClient whether or not to skip committing the client after the transaction
    * @returns {Array<object>} the response from postgres
    */
   public MultiUpdateExecutor(
@@ -236,6 +247,7 @@ export class DataAccess {
         pkName: string
         autoSetTimeFields?: Array<string>
         client?: object
+        preserveClient?: boolean
       }
     }>,
     forceFlat?: boolean,
@@ -264,6 +276,7 @@ export class DataAccess {
    * @param {boolean} returnSingleRecord if true, only return one record
    * @param {function} callback function to be run before committing the database transaction
    * @param {object} client the pg client used for each query in the transaction
+   * @param {bool} preserveClient whether or not to skip committing the client after the transaction
    * @returns {object} the response from postgres
    */
   public DeleteExecutor(args: {
@@ -272,6 +285,7 @@ export class DataAccess {
     returnSingleRecord?: boolean
     callback?: Function
     client?: object
+    preserveClient?: boolean
   }): object
 
   /**
@@ -298,5 +312,7 @@ export class DataAccess {
     returnSingleRecord?: boolean
     /** client to be used for the transaction*/
     client?: object
+    // Whether or not to skip comitting the client after the query
+    preserveClient?: boolean
   }): object
 }
