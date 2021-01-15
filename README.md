@@ -269,6 +269,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
                 offset: undefined
             }
 
+            `preserveClient`: boolean
+
             `callback`: function
           }
 
@@ -293,6 +295,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            `selectFields`: string, default \*
   
            `callback`: function
+
+           `preserveClient`: boolean
          
           }
   
@@ -319,6 +323,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
               offset: undefined
             }
 
+            `preserveClient`: boolean
+
             `callback`: function
           }
 
@@ -341,6 +347,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            `callback`: function
 
            `client`: object
+
+           `preserveClient`: boolean
     
          }
     
@@ -365,6 +373,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           `callback`: function
 
           `client`: object
+
+          `preserveClient`: boolean
     
          }
     
@@ -388,6 +398,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            `callback`: function
 
            `client`: object
+
+           `preserveClient`: boolean
      }
     
        - Returns
@@ -412,6 +424,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            `callback`: function
          
            `client`: object
+
+           `preserveClient`: boolean
     }
     
        - Returns
@@ -440,6 +454,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            `callback`: function
 
            `client`: object
+
+           `preserveClient`: boolean
      }
     
        - Returns
@@ -462,6 +478,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
             `callback`: function
 
             `client`: object
+
+            `preserveClient`: boolean
         }
         - Returns
     
@@ -639,6 +657,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          tableName: string, //name of inserted table
          callback?: function, //function to run before committing the transaction
          client?: object //the pg client to be used for the transaction
+         preserveClient?: boolean // skips comitting the client if true
          ```
     
        - Returns
@@ -659,6 +678,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          tableName: string, //name of inserted table
          callback?: function, //function to run before committing the transaction
          client?: object //the pg client to be used for the transaction
+         preserveClient?: boolean // skips comitting the client if true
          ```
   
        - Returns
@@ -682,6 +702,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          forceFlat?: boolean, //if true, forces results into one array
          callback?: function, //function to run before committing the transaction
          client?: object //the pg client to be used for the transaction
+         preserveClient?: boolean // skips comitting the client if true
          ```
   
        - Returns
@@ -703,6 +724,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
          autoSetTimeFields?: Array<string> ,//those fields need to set time automatically
          callback?: function, //function to run before committing the transaction
          client?: object //the pg client to be used for the transaction
+         preserveClient?: boolean // skips comitting the client if true
          ```
   
        - Returns
@@ -724,6 +746,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
           autoSetTimeFields?: Array<string>, //those fields need to set time automatically
           callback?: function, //function to run before committing the transaction
           client?: object //the pg client to be used for the transaction
+          preserveClient?: boolean // skips comitting the client if true
           ```
   
         - Returns
@@ -748,8 +771,9 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
               autoSetTimeFields?: Array<string>, //those fields need to set time automatically
               client?: object //the pg client to be used for the transaction
             }>,
-            forceFlat?: boolean, //if true, forces results into a single array
+            forceFlat?: boolean //if true, forces results into a single array
             callback?: function //function to run before committing the transaction
+            preserveClient?: boolean // skips comitting the client if true
           ```
   
         - Returns
@@ -770,6 +794,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
            returnSingleRecord?: boolean,//if true, returns one record instead of array
            callback?: function, //function to run before committing the transaction
            client?: object //the pg client to be used for the transaction
+           preserveClient?: boolean // skips comitting the client if true
            ```
         
         - Returns
@@ -802,6 +827,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
             /** if true, return a single record instead of an array */
              returnSingleRecord?: boolean,
              client?: object //the pg client to be used for the transaction
+             preserveClient?: boolean // skips comitting the client if true
           }
           ```
   
