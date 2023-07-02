@@ -53,6 +53,8 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20201029 :** Added `preserveClient` for leaving the client open for further operations in the transaction
 - **Build20210110 :** Throw error if no valid value to insert or update.
 - **Build20210619 :** Added safeguard in `deleteByConditions`
+- **Build20230619 :** Typo fixes
+- **Build20230703 :** Supported `IS` and `IS NOT` operators
 
 ---
 
