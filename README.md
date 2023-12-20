@@ -55,6 +55,7 @@ _This library is built for who uses GraphQL on NodeJS, you can use model to oper
 - **Build20210619 :** Added safeguard in `deleteByConditions`
 - **Build20230619 :** Typo fixes
 - **Build20230703 :** Supported `IS` and `IS NOT` operators
+- **Build20231221 :** Supported POSIX and `SIMILAR TO` operators
 
 ---
 
