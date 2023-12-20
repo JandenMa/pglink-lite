@@ -87,6 +87,7 @@ export class ModelBase {
       limit?: String
       offset?: String
     }
+    client?: Object
     preserveClient?: Boolean
     callback?: Function
   }): Array<Object>
